@@ -94,7 +94,7 @@ class Order:
         }
         
 
-restOrderConfirmed = not DEFAULT_ORDER_CONFIRM
+restOrderConfirmed = DEFAULT_ORDER_CONFIRM
 
 class RESTRequests:
 
