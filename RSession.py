@@ -199,7 +199,7 @@ class RESTRequests:
         assert type(symbols) == list
         assert len(symbols) > 0
         assert all( [ type(s) == str and len(s) > 0 for s in symbols ] )
-        sbs = "".join(symbols)
+        sbs = ",".join(symbols)
         return {
             "method": r"GET",
             "url": f"/v1/api/trsrv/futures?symbols={sbs}",
@@ -213,7 +213,7 @@ class RESTRequests:
         assert type(symbols) == list
         assert len(symbols) > 0
         assert all( [ type(s) == str and len(s) > 0 for s in symbols ] )
-        sbs = "".join(symbols)
+        sbs = ",".join(symbols)
         return {
             "method": r"GET",
             "url": f"/v1/api/trsrv/stocks?symbols={sbs}",
