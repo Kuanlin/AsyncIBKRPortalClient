@@ -1,10 +1,10 @@
 import asyncio, aiohttp, ssl, json
 #logger = logging.getLogger("WS")
-
+WS_DEFAULT_TIMEOUT = 10
 
 class WSRequests:
      
-    def pingServer(timeout: int = DEFAULT_TIMEOUT) -> dict:
+    def pingServer(timeout: int = WS_DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"POST",
             "url": f"/tickle",

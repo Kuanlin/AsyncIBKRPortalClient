@@ -133,7 +133,7 @@ class RESTRequests:
         ordersDict: dict, 
         accountId: str = DEFAULT_ACCOUNTID, 
         timeout: int = DEFAULT_TIMEOUT) -> dict:
-        assert restOrderConfirmed = True
+        assert restOrderConfirmed == True
 
 
     async def placeOrders(
@@ -141,7 +141,7 @@ class RESTRequests:
         accountId: str = DEFAULT_ACCOUNTID, 
         timeout: int = DEFAULT_TIMEOUT) -> dict:
 
-        assert restOrderConfirmed = True
+        assert restOrderConfirmed == True
         assert type(orders) == list
         assert len(orders) > 0
         assert all( [ type(od) == Order for od in orders ] )

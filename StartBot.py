@@ -34,11 +34,11 @@ class Bot(BotBase):
     def onLiveOrdersResp(self, name, content):
         print("---onLiveOrdersResp")
 
-    @BotBase.respResponse
+    @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
         print("---onPositionsAllResp")
 
-    @BotBase.respResponse
+    @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
         print("---onRespondChain_PositionNextPageResp")
 
