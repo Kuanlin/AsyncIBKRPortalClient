@@ -318,15 +318,26 @@ class RESTRequests:
             "params": "",
             "timeout": timeout,
             "respchain": RESTRequests.respondChain_PositionNextPage,
-            "respchain_kwarg": { "accountId": accountId, "pageId" : pageId+1 },
+            "respchain_kwarg": { "accountId": accountId, "pageId" : pageId+1, "timeout": timeout },
         }
 
 
     async def respondChain_PositionNextPage(respond, **kwargs):
-        #if number of position for this page == 30 then request for next page
-        #check respond
-        #if len(poslist) == 30 then respChainQueue.put(positionsAll(accountId, pageId)) else return 
-        pass
+        if len(respond) == 0:
+            return None
+        accountId = kwargs["accountId"]
+        pageId = kwargs["pageId"]
+        timeout = kwargs["timeout"]
+        assert type(accountId) == str and len(accountId) > 0
+        assert type(pageId) == int and len(pageId) >= 0
+        return {
+            "method": r"GET",
+            "url": f"/portfolio/{accountId}/positions/{pageId}",
+            "params": "",
+            "timeout": timeout,
+            "respchain": RESTRequests.respondChain_PositionNextPage,
+            "respchain_kwarg": { "accountId": accountId, "pageId" : pageId+1 },
+        }
 
 
     async def positionsbyConid(conid: str = None, acctId: str = None, timeout: int = DEFAULT_TIMEOUT) -> dict:
@@ -534,21 +545,24 @@ class RESTRequestSession:
                                     chain_length = chain_length + 1
                                     request_name = m.__name__
                                     request = await m(resp, **request.get("respchain_kwarg"))
-                                    session_request = asyncio.ensure_future(
-                                        session.request(
-                                            method = request["method"],
-                                            url = "/"+request["method"].lower(), #request["url"],
-                                            headers = headers | {} if not request.get("headers") else request.get("headers"),
-                                            params = request["params"],
-                                            allow_redirects = False,
-                                            timeout = request["timeout"] ) )
-                                            
-                                    resp = await session_request
-                                    resps.append(
-                                        { "req" : request_name, "rsp": resp})
-                                    await self.onResponse(
-                                        { "req" : request_name, "rsp": resp})
-                                    m = request.get("respchain")
+                                    if request != None:
+                                        session_request = asyncio.ensure_future(
+                                            session.request(
+                                                method = request["method"],
+                                                url = "/"+request["method"].lower(), #request["url"],
+                                                headers = headers | {} if not request.get("headers") else request.get("headers"),
+                                                params = request["params"],
+                                                allow_redirects = False,
+                                                timeout = request["timeout"] ) )
+                                                
+                                        resp = await session_request
+                                        resps.append(
+                                            { "req" : request_name, "rsp": resp})
+                                        await self.onResponse(
+                                            { "req" : request_name, "rsp": resp})
+                                        m = request.get("respchain")
+                                    else:
+                                        m = None
                                 #print("before on Response")
 
                             except aiohttp.ServerTimeoutError as e:
