@@ -3,8 +3,8 @@ import asyncio, json
 from typing import Union
 
 MAX_CHAIN_LENGTH = 200
-IBKRClientPortalURI = "https://localhost:5000/v1/api"
-IBKRClientPortalURI = "https://httpbin.org"
+IBKRClientPortalURI = "https://localhost:5000"
+#IBKRClientPortalURI = "https://httpbin.org"
 DEFAULT_TIMEOUT = 10
 DEFAULT_ACCOUNTID = "DEFAULT_ACCOUNTID"
 DEFAULT_CURRENCY = "USD"
@@ -111,7 +111,7 @@ class RESTRequests:
         fc = "force=true&" if force else "force=false&"
         return {
             "method": r"GET",
-            "url": f"/iserver/account/orders?{fil}{fc}accountId={accountId}",
+            "url": f"/v1/api/iserver/account/orders?{fil}{fc}accountId={accountId}",
             "params": "",
             "timeout": timeout
         }
@@ -123,7 +123,7 @@ class RESTRequests:
         oid = str( orderId if type(orderId)==int else int(orderId) )
         return {
             "method": r"GET",
-            "url": f"/iserver/account/order/status/{oid}",
+            "url": f"/v1/api/iserver/account/order/status/{oid}",
             "params": "",
             "timeout": timeout
         }
@@ -153,7 +153,7 @@ class RESTRequests:
 
         return {
             "method": r"POST",
-            "url": f"/iserver/account/{accountId}/orders",
+            "url": f"/v1/api/iserver/account/{accountId}/orders",
             "params": orderListStr,
             "respchain": RESTRequests.respondChain_OrdersApprov,
             "respchain_kwarg": { "accountId": accountId },
@@ -173,7 +173,7 @@ class RESTRequests:
     async def respondChain_OrdersApprov(responds, **kwargs):
         return {
             "method": r"POST",
-            "url": r"/iserver/reply/{{ replyId }}",
+            "url": r"/v1/api/iserver/reply/{{ replyId }}",
             "params": "APPROV HERE",
             "timeout": kwargs.get("timeout") if kwargs.get("timeout") else DEFAULT_TIMEOUT
         }
@@ -190,7 +190,7 @@ class RESTRequests:
         oid = str( orderId if type(orderId)==int else int(orderId) )
         return {
             "method": r"DELETE",
-            "url": f"/iserver/account/{accountId}/order/{oid}"
+            "url": f"/v1/api/iserver/account/{accountId}/order/{oid}"
         }
 
 
@@ -202,7 +202,7 @@ class RESTRequests:
         sbs = "".join(symbols)
         return {
             "method": r"GET",
-            "url": f"/trsrv/futures?symbols={sbs}",
+            "url": f"/v1/api/trsrv/futures?symbols={sbs}",
             "params": "",
             "timeout": timeout
         }
@@ -216,7 +216,7 @@ class RESTRequests:
         sbs = "".join(symbols)
         return {
             "method": r"GET",
-            "url": f"/trsrv/stocks?symbols={sbs}",
+            "url": f"/v1/api/trsrv/stocks?symbols={sbs}",
             "params": "",
             "timeout": timeout
         }
@@ -225,7 +225,7 @@ class RESTRequests:
     async def profitAndLoss(timeout: int = DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"GET",
-            "url": r"/iserver/account/pnl/partitioned",
+            "url": r"/v1/api/iserver/account/pnl/partitioned",
             "params": "",
             "timeout": timeout
         }
@@ -234,7 +234,7 @@ class RESTRequests:
     async def portfolioAccounts(timeout: int = DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"GET",
-            "url": r"/portfolio/accounts",
+            "url": r"/v1/api/portfolio/accounts",
             "params": "",
             "timeout": timeout
         }
@@ -243,7 +243,7 @@ class RESTRequests:
     async def portfolioSubaccounts(timeout: int = DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"GET",
-            "url": r"/portfolio/subaccounts",
+            "url": r"/v1/api/portfolio/subaccounts",
             "params": "",
             "timeout": timeout
         }
@@ -253,7 +253,7 @@ class RESTRequests:
         assert type(page) == int and len(page) >= 0
         return {
             "method": r"GET",
-            "url": r"/portfolio/subaccounts2",
+            "url": r"/v1/api/portfolio/subaccounts2",
             "params": f"page={page}",
             "timeout": timeout
         }
@@ -265,7 +265,7 @@ class RESTRequests:
             raise ValueError
         return {
             "method": r"GET",
-            "url": f"/portfolio/{accountId}/meta",
+            "url": f"/v1/api/portfolio/{accountId}/meta",
             "params": "",
             "timeout": timeout
         }
@@ -275,7 +275,7 @@ class RESTRequests:
         assert type(accountId) == str and len(accountId) > 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/{accountId}/allocation",
+            "url": f"/v1/api/portfolio/{accountId}/allocation",
             "params": "",
             "timeout": timeout
         }
@@ -292,7 +292,7 @@ class RESTRequests:
         json_content = json.dumps( { "acctIds" : accountIds } )
         return {
             "method": r"POST",
-            "url": f"/portfolio/allocation",
+            "url": f"/v1/api/portfolio/allocation",
             "params": f"json={json_content}",
             "timeout": timeout
         }
@@ -303,7 +303,7 @@ class RESTRequests:
         assert type(pageId) == int and pageId >= 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/{accountId}/positions/{pageId}",
+            "url": f"/v1/api/portfolio/{accountId}/positions/{pageId}",
             "params": "",
             "timeout": timeout
         }
@@ -346,7 +346,7 @@ class RESTRequests:
         assert type(conid) == str and len(conid) > 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/{acctId}/position/{conid}",
+            "url": f"/v1/api/portfolio/{acctId}/position/{conid}",
             "params": "",
             "timeout": timeout
         }
@@ -361,7 +361,7 @@ class RESTRequests:
         assert type(accountId) == str and len(accountId) > 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/{accountId}/summary",
+            "url": f"/v1/api/portfolio/{accountId}/summary",
             "params": "",
             "timeout": timeout
         }
@@ -370,7 +370,7 @@ class RESTRequests:
         assert type(accountId) == str and len(accountId) > 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/{accountId}/ledger",
+            "url": f"/v1/api/portfolio/{accountId}/ledger",
             "params": "",
             "timeout": timeout
         }
@@ -379,7 +379,7 @@ class RESTRequests:
         assert type(conid) == str and len(conid) > 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/positions/{conid}",
+            "url": f"/v1/api/portfolio/positions/{conid}",
             "params": "",
             "timeout": timeout
         }
@@ -411,7 +411,7 @@ class RESTRequests:
 
         return {
             "method": r"POST",
-            "url": f"/pa/transactions",
+            "url": f"/v1/api/pa/transactions",
             "params": f"json={json_content}",
             "timeout": timeout
         }
@@ -435,7 +435,7 @@ class RESTRequests:
     def authenticationStatus(timeout: int = DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"POST",
-            "url": f"/iserver/auth/status",
+            "url": f"/v1/api/iserver/auth/status",
             "params": "json=",
             "timeout": timeout
         }
@@ -448,7 +448,7 @@ class RESTRequests:
     def logout(timeout: int = DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"POST",
-            "url": f"/logout",
+            "url": f"/v1/api/logout",
             "params": "json=",
             "timeout": timeout
         }
@@ -456,7 +456,7 @@ class RESTRequests:
     def pingServer(timeout: int = DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"POST",
-            "url": f"/tickle",
+            "url": f"/v1/api/tickle",
             "params": "json=",
             "timeout": timeout
         }
@@ -464,7 +464,7 @@ class RESTRequests:
     def validSSO(timeout: int = DEFAULT_TIMEOUT) -> dict:
         return {
             "method": r"GET",
-            "url": f"/sso/validate",
+            "url": f"/v1/api/sso/validate",
             "params": "",
             "timeout": timeout
         }
@@ -525,7 +525,7 @@ class RESTRequestSession:
                             session_request = asyncio.ensure_future(
                                 session.request(
                                     method = request["method"],
-                                    url = "/"+request["method"].lower(), #request["url"],
+                                    url = request["url"],
                                     headers = headers | {} if not request.get("headers") else request.get("headers"),
                                     params = request["params"],
                                     allow_redirects = False,
@@ -550,7 +550,7 @@ class RESTRequestSession:
                                         session_request = asyncio.ensure_future(
                                             session.request(
                                                 method = request["method"],
-                                                url = "/"+request["method"].lower(), #request["url"],
+                                                url = request["url"],
                                                 headers = headers | {} if not request.get("headers") else request.get("headers"),
                                                 params = request["params"],
                                                 allow_redirects = False,
