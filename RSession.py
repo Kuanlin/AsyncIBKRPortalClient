@@ -300,7 +300,7 @@ class RESTRequests:
 
     async def positions(pageId: int = 0, accountId: str = DEFAULT_ACCOUNTID, timeout: int = DEFAULT_TIMEOUT) -> dict:
         assert type(accountId) == str and len(accountId) > 0
-        assert type(pageId) == int and len(pageId) >= 0
+        assert type(pageId) == int and pageId >= 0
         return {
             "method": r"GET",
             "url": f"/portfolio/{accountId}/positions/{pageId}",
@@ -311,10 +311,10 @@ class RESTRequests:
 
     async def positionsAll(pageId: int = 0, accountId: str = DEFAULT_ACCOUNTID, timeout: int = DEFAULT_TIMEOUT) -> dict:
         assert type(accountId) == str and len(accountId) > 0
-        assert type(pageId) == int and len(pageId) >= 0
+        assert type(pageId) == int and pageId >= 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/{accountId}/positions/{pageId}",
+            "url": f"/v1/api/portfolio/{accountId}/positions/{pageId}",
             "params": "",
             "timeout": timeout,
             "respchain": RESTRequests.respondChain_PositionNextPage,
@@ -322,8 +322,12 @@ class RESTRequests:
         }
 
 
-    async def respondChain_PositionNextPage(respond, **kwargs):
-        if len(respond) == 0:
+    async def respondChain_PositionNextPage(response, **kwargs):
+        
+        #if len(respond) == 0:
+        #    return None
+        content = (await response.content.read()).decode('utf8')
+        if content == "" or content=="[]":
             return None
         accountId = kwargs["accountId"]
         pageId = kwargs["pageId"]
@@ -332,7 +336,7 @@ class RESTRequests:
         assert type(pageId) == int and len(pageId) >= 0
         return {
             "method": r"GET",
-            "url": f"/portfolio/{accountId}/positions/{pageId}",
+            "url": f"/v1/api/portfolio/{accountId}/positions/{pageId}",
             "params": "",
             "timeout": timeout,
             "respchain": RESTRequests.respondChain_PositionNextPage,
@@ -512,7 +516,7 @@ class RESTRequestSession:
                 await self.onClientInit()
                 while(True):
                     await asyncio.sleep(0)
-                    async with aiohttp.ClientSession(IBKRClientPortalURI) as session:
+                    async with aiohttp.ClientSession(IBKRClientPortalURI, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
                         request_coroutines = deque(await self.aquireRequestList()) #deque to avoid race condition
                         resps = []
                         for index, request_coro in enumerate(request_coroutines):
