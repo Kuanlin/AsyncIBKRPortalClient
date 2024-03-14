@@ -323,9 +323,6 @@ class RESTRequests:
 
 
     async def respondChain_PositionNextPage(response, **kwargs):
-        
-        #if len(respond) == 0:
-        #    return None
         content = (await response.content.read()).decode('utf8')
         if content == "" or content=="[]":
             return None
