@@ -513,7 +513,7 @@ class RESTRequestSession:
                             session_request = asyncio.ensure_future(
                                 session.request(
                                     method = request["method"],
-                                    url = "/"+{request["method"].lower()}, #request["url"],
+                                    url = "/"+request["method"].lower(), #request["url"],
                                     headers = headers | {} if not request.get("headers") else request.get("headers"),
                                     params = request["params"],
                                     allow_redirects = False,
@@ -537,7 +537,7 @@ class RESTRequestSession:
                                     session_request = asyncio.ensure_future(
                                         session.request(
                                             method = request["method"],
-                                            url = "/"+{request["method"].lower()}, #request["url"],
+                                            url = "/"+request["method"].lower(), #request["url"],
                                             headers = headers | {} if not request.get("headers") else request.get("headers"),
                                             params = request["params"],
                                             allow_redirects = False,
