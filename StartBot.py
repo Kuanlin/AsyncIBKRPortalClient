@@ -12,10 +12,10 @@ class Bot(BotBase):
         self.orderSubmitted = False
         self.orderApproveReplied = True
 
-        await restin.put ([
-            RESTRequests.transactionHistory(
-                accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
-
+        #await restin.put ([
+        #    RESTRequests.transactionHistory(
+        #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
+        
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
         self.orderApproveReplied = False
