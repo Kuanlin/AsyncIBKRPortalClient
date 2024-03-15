@@ -200,7 +200,7 @@ class RESTRequests:
             "url": f"/v1/api/iserver/account/{accountId}/order/{orderId}",
             "params": "",
             "data": dataStr,
-            "respchain": RESTRequests.respondChain_OrdersApprov,
+            "respchain": RESTRequests.respondChain_ModifyOrdersApprov,
             "respchain_kwarg": { "accountId": accountId },
             "timeout": timeout
         }
@@ -209,6 +209,18 @@ class RESTRequests:
         pass
 
     async def respondChain_OrdersApprov(content, **kwargs):
+        jcontent = json.loads(content)
+        replyId = jcontent[0].get("id")
+        print(f"chain:::/v1/api/iserver/reply/{ replyId }")
+        return {
+            "method": r"POST",
+            "url": f"/v1/api/iserver/reply/{ replyId }",
+            "params": "",
+            "data": r'{"confirmed":true}',
+            "timeout": kwargs.get("timeout") if kwargs.get("timeout") else DEFAULT_TIMEOUT
+        }
+
+    async def respondChain_ModifyOrdersApprov(content, **kwargs):
         jcontent = json.loads(content)
         replyId = jcontent[0].get("id")
         print(f"chain:::/v1/api/iserver/reply/{ replyId }")
