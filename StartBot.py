@@ -101,7 +101,7 @@ class Bot(BotBase):
         #print("MyOrd:", end="")
         #pp()
 
-        if tsm != None and len(self.myLiveOrders)==0 and self.test = False
+        if tsm != None and len(self.myLiveOrders)==0 and self.test == False:
                 if tsm.get('position') - 35.0 < 0.00001:
                     print("PLACE_TSM")
                     self.test = True
