@@ -63,8 +63,8 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onLiveOrdersResp(self, name, content):
+        #print(f"##{name} : {content}")
         jc = json.loads(content)
-        #print("liveOrders:")
         self.myLiveOrders = jc.get('orders')
         print(f"liveOrders: {self.myLiveOrders} {type(self.myLiveOrders)}")
         #pp(jc)

@@ -100,7 +100,7 @@ class RESTRequests:
 
     async def liveOrders(
         filters: list = [], 
-        force: bool = True, 
+        force: bool = False, 
         accountId: str = DEFAULT_ACCOUNTID, 
         timeout: int = DEFAULT_TIMEOUT) -> dict:
         assert type(accountId) == str
