@@ -42,7 +42,7 @@ class Bot(BotBase):
         jc = json.loads(content)
         print("liveOrders:")
         self.myLiveOrders = jc.get('orders')
-        pp(jc)
+        #pp(jc)
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
@@ -87,15 +87,15 @@ class Bot(BotBase):
         '''
         if not self.balance:
             pageId = 0
-            print(acctId)
+            #print(acctId)
             await restin.put([
                 RESTRequests.positionsAll(pageId = 0, accountId = acctId),    
                 #RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]),
                 RESTRequests.liveOrders(),
             ])
-        print("MyPos:", end="")
-        tsm=self.myPositions.get('TSM')
-        pp(tsm)
+        #print("MyPos:", end="")
+        #tsm=self.myPositions.get('TSM')
+        #pp(tsm)
         print("MyOrd:", end="")
         pp(self.myLiveOrders)
         
