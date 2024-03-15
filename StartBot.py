@@ -8,8 +8,7 @@ from pprint import pprint as pp
 jf = open("config.json","r")
 acctId = "U"+json.load(jf)["id"]
 
-myPositions = {}
-myLiveOrders = {}
+
 
 class Bot(BotBase):
 
@@ -18,7 +17,8 @@ class Bot(BotBase):
         self.balance = False
         self.orderSubmitted = False
         self.orderApproveReplied = True
-
+        self.myPositions = {}
+        self.myLiveOrders = {}
         #await restin.put ([
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
@@ -41,7 +41,7 @@ class Bot(BotBase):
     def onLiveOrdersResp(self, name, content):
         jc = json.loads(content)
         print("liveOrders:")
-        myLiveOrders = jc.get('orders')
+        self.myLiveOrders = jc.get('orders')
         pp(jc)
 
     @BotBase.restResponse
@@ -49,8 +49,8 @@ class Bot(BotBase):
         #print(f"##{name} : {content}")
         #print(f"##{name} : ", end="")
         jc = json.loads(content)
-        myPositions = { p.get('contractDesc'):p for p in jc }
-        pp(myPositions)
+        self.myPositions = { p.get('contractDesc'):p for p in jc }
+        pp(self.myPositions)
         #myPositions = pos
         #for p in pos:
         #    print(f"DESC:{p.get('contractDesc')}\nPOS:{p.get('position')}\nMKP:{p.get('mktPrice')}")
@@ -89,9 +89,9 @@ class Bot(BotBase):
                 #RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]),
                 RESTRequests.liveOrders(),
             ])
-        pp(myPositions)
-        pp(myLiveOrders)
-        if tsm:=myPositions.get('TSM') and len(myLiveOrders==0):
+        pp(self.myPositions)
+        pp(self.myLiveOrders)
+        if tsm:=self.myPositions.get('TSM') and len(self.myLiveOrders==0):
             print("place_TSM")
             if tsm.get('position') - 35.0 < 0.00001:
                 await restin.put([
