@@ -89,7 +89,9 @@ class Bot(BotBase):
                 #RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]),
                 RESTRequests.liveOrders(),
             ])
+        print("MyPos:", end="")
         pp(self.myPositions)
+        print("MyOrd:", end="")
         pp(self.myLiveOrders)
         if tsm:=self.myPositions.get('TSM') and len(self.myLiveOrders==0):
             print("place_TSM")
