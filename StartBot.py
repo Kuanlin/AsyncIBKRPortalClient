@@ -95,19 +95,19 @@ class Bot(BotBase):
                 #RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]),
                 RESTRequests.liveOrders(),
             ])
-        #print("MyPos:", end="")
         tsm=self.myPositions.get('TSM')
-        #pp(tsm)
-        #print("MyOrd:", end="")
-        #pp()
-
         if tsm != None and len(self.myLiveOrders)==0 and self.test == False:
                 if tsm.get('position') - 35.0 < 0.00001:
                     print("PLACE_TSM")
                     self.test = True
                     await restin.put([
-                        RESTRequests.placeOrders(
-                            [Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)]) ])
+                        RESTRequests.placeOrders( 
+                            orders = [ 
+                                Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) 
+                            ],
+                            accountId = str(acctId)
+                        ) 
+                    ])
 
         self.balance = True
 
