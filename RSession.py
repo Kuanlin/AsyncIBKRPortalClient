@@ -149,13 +149,13 @@ class RESTRequests:
         assert len(accountId) > 0
 
         acctId = accountId
-        orderListStr = json.dumps( {"orders": [ od.toDict() for od in orders ]} )
+        orderList = {"orders": [ od.toDict() for od in orders ]}
 
         return {
             "method": r"POST",
             "url": f"/v1/api/iserver/account/{accountId}/orders",
             "params": "",
-            "data": orderListStr,
+            "data": orderList,
             "respchain": RESTRequests.respondChain_OrdersApprov,
             "respchain_kwarg": { "accountId": accountId },
             "timeout": timeout
