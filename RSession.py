@@ -179,7 +179,7 @@ class RESTRequests:
             "method": r"POST",
             "url": f"/v1/api/iserver/reply/{ replyId }",
             "params": "",
-            "data": r'{"confirmed":false}',
+            "data": r'{"confirmed":true}',
             "timeout": kwargs.get("timeout") if kwargs.get("timeout") else DEFAULT_TIMEOUT
         }
 
