@@ -107,7 +107,7 @@ class Bot(BotBase):
                 if tsm.get('position') - 35.0 < 0.00001:
                     await restin.put([
                         RESTRequests.placeOrders(
-                            [Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)] ])
+                            [Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)]) ])
 
         self.balance = True
 
