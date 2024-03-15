@@ -222,7 +222,7 @@ class RESTRequests:
 
     async def respondChain_ModifyOrdersApprov(content, **kwargs):
         jcontent = json.loads(content)
-        replyId = jcontent[0].get("id")
+        replyId = jcontent.get("id")
         print(f"chain:::/v1/api/iserver/reply/{ replyId }")
         return {
             "method": r"POST",
