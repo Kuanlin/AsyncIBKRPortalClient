@@ -42,6 +42,7 @@ class Bot(BotBase):
         jc = json.loads(content)
         print("liveOrders:")
         self.myLiveOrders = jc.get('orders')
+        print(f"liveOrders: {self.myLiveOrders} {type(self.myLiveOrders)}")
         #pp(jc)
 
     @BotBase.restResponse
