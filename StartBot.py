@@ -48,7 +48,7 @@ class Bot(BotBase):
         ])'''
 
         await restin.put([
-            RESTRequests.modifyOrder(orderId = "2096356379", acctId=acctId, conid=6223250, price = 119, quantity = 1)
+            RESTRequests.modifyOrder(orderId = "2096356379", accountId=acctId, conid=6223250, price = 119, quantity = 1)
         ])
 
     @BotBase.restResponse
