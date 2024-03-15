@@ -94,10 +94,11 @@ class Bot(BotBase):
                 RESTRequests.liveOrders(),
             ])
         print("MyPos:", end="")
-        pp(self.myPositions)
+        tsm=self.myPositions.get('TSM')
+        pp(tsm)
         print("MyOrd:", end="")
         pp(self.myLiveOrders)
-        tsm=self.myPositions.get('TSM')
+        
         if tsm != None and len(self.myLiveOrders==0):
             print("place_TSM")
             if tsm.get('position') - 35.0 < 0.00001:
