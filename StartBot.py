@@ -8,6 +8,8 @@ from pprint import pprint as pp
 jf = open("config.json","r")
 acctId = "U"+json.load(jf)["id"]
 
+myPositions = []
+
 class Bot(BotBase):
 
     async def restInit(self):
@@ -43,9 +45,11 @@ class Bot(BotBase):
         #print(f"##{name} : {content}")
         print(f"##{name} : ", end="")
         jc = json.loads(content)
-        pos = [ p for p in jc ]
-        for p in pos:
-            print(f"DESC:{p.get('contractDesc')}\nPOS:{p.get('position')}\nMKP:{p.get('mktPrice')}")
+        pos = { {p.get('contractDesc'), p} for p in jc }
+        pp(pos)
+        #myPositions = pos
+        #for p in pos:
+        #    print(f"DESC:{p.get('contractDesc')}\nPOS:{p.get('position')}\nMKP:{p.get('mktPrice')}")
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
