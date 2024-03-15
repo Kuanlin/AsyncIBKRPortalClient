@@ -59,6 +59,7 @@ class Bot(BotBase):
     def onRespondChain_PositionNextPageResp(self, name, content):
         #print(f"##{name} : {content}")
         #print()
+        pass
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
