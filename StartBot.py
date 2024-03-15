@@ -45,7 +45,7 @@ class Bot(BotBase):
         #print(f"##{name} : {content}")
         print(f"##{name} : ", end="")
         jc = json.loads(content)
-        pos = { {p.get('contractDesc'), p} for p in jc }
+        pos = { p.get('contractDesc'):p for p in jc }
         pp(pos)
         #myPositions = pos
         #for p in pos:
