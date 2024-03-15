@@ -156,8 +156,8 @@ class RESTRequests:
             "url": f"/v1/api/iserver/account/{accountId}/orders",
             "params": "",
             "data": orderList,
-            "respchain": RESTRequests.respondChain_OrdersApprov,
-            "respchain_kwarg": { "accountId": accountId },
+            #"respchain": RESTRequests.respondChain_OrdersApprov,
+            #"respchain_kwarg": { "accountId": accountId },
             "timeout": timeout
         }
 
