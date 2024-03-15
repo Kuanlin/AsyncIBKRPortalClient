@@ -4,6 +4,9 @@ from BotBase import BotBase
 from RSession import *
 from WSession import *
 
+jf = open("config.json","r")
+acctId = "U"+json.load(jf)["id"]
+
 class Bot(BotBase):
 
     async def restInit(self):
@@ -15,7 +18,7 @@ class Bot(BotBase):
         #await restin.put ([
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
-        
+
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
         self.orderApproveReplied = False
@@ -36,11 +39,13 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
-        print("---onPositionsAllResp")
+        print(f"##{name} : {content}")
+        print()
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
-        print("---onRespondChain_PositionNextPageResp")
+        print(f"##{name} : {content}")
+        print()
 
     async def mainloop(self):
         await asyncio.sleep(0.5)
@@ -54,11 +59,11 @@ class Bot(BotBase):
                     Order(conid=9101, side=OrderSide.BUY, orderType=OrderType.MARKET, price=550, quantity=10000.333445, tif=OrderTIF.DAY) ]) ])
             self.balance = True
         '''
-        acctId = None
         if not self.balance:
             pageId = 0
-            await restin.put([
-                RESTRequests.positionsAll(pageId = 0, accountId = acctId)    ])
+            print(acctId)
+            #await restin.put([
+            #    RESTRequests.positionsAll(pageId = 0, accountId = acctId)    ])
         self.balance = True
 
         print("[mainloop]")
