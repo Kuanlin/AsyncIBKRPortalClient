@@ -99,11 +99,13 @@ class Bot(BotBase):
         print("MyOrd:", end="")
         pp(self.myLiveOrders)
         
-        if tsm != None and len(self.myLiveOrders==0):
+        if tsm != None :
             print("place_TSM")
-            if tsm.get('position') - 35.0 < 0.00001:
-                await restin.put([
-                    Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ])
+                if and len(self.myLiveOrders==0):
+                    print("place_TSM_len")
+                    if tsm.get('position') - 35.0 < 0.00001:
+                        await restin.put([
+                            Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ])
 
         self.balance = True
 
