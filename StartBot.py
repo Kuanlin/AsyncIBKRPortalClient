@@ -97,9 +97,9 @@ class Bot(BotBase):
         #print("MyPos:", end="")
         tsm=self.myPositions.get('TSM')
         #pp(tsm)
-        print("MyOrd:", end="")
-        pp(tsm)
-        
+        #print("MyOrd:", end="")
+        #pp()
+
         if tsm != None :
             print("place_TSM")
             if len(self.myLiveOrders)==0:
