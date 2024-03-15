@@ -167,12 +167,12 @@ class RESTRequests:
 
     async def modifyOrder(
             orderId: str,
-            conid: int,
-            price: float,
-            quantity: float,
-            orderType: str,
-            side: str,
-            tif: str,
+            conid: int = None,
+            price: float = None,
+            quantity: float = None,
+            orderType: str = None,
+            side: str = None,
+            tif: str = None,
             accountId: str = DEFAULT_ACCOUNTID, 
             timeout: int = DEFAULT_TIMEOUT) -> dict:
         
