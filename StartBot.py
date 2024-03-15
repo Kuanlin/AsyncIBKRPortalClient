@@ -3,7 +3,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from BotBase import BotBase
 from RSession import *
 from WSession import *
-
+from pprint import pprint as pp
 jf = open("config.json","r")
 acctId = "U"+json.load(jf)["id"]
 
@@ -39,7 +39,9 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
-        print(f"##{name} : {content}")
+        #print(f"##{name} : {content}")
+        print(f"##{name} : ", end="")
+        pp(json.loads(content))
         print()
 
     @BotBase.restResponse
