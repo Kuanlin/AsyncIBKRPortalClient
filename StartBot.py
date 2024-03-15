@@ -8,7 +8,7 @@ from pprint import pprint as pp
 jf = open("config.json","r")
 acctId = "U"+json.load(jf)["id"]
 
-myPositions = []
+myPositions = {}
 
 class Bot(BotBase):
 
@@ -38,15 +38,17 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onLiveOrdersResp(self, name, content):
-        print("---onLiveOrdersResp")
+        jc = json.loads(content)
+        print("liveOrders:")
+        pp(jc)
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
         #print(f"##{name} : {content}")
         #print(f"##{name} : ", end="")
         jc = json.loads(content)
-        pos = { p.get('contractDesc'):p for p in jc }
-        pp(pos)
+        myPositions = { p.get('contractDesc'):p for p in jc }
+        pp(myPositions)
         #myPositions = pos
         #for p in pos:
         #    print(f"DESC:{p.get('contractDesc')}\nPOS:{p.get('position')}\nMKP:{p.get('mktPrice')}")
@@ -82,7 +84,16 @@ class Bot(BotBase):
             print(acctId)
             await restin.put([
                 RESTRequests.positionsAll(pageId = 0, accountId = acctId),    
-                RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]) ])
+                #RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]),
+                RESTRequests.liveOrders(),
+            ])
+
+        #if tsm:=myPositions.get('TSM'):
+        #    if tsm.get('position') - 35.0 < 0.00001:
+        #        await restin.put([
+        #            Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ])
+        #    pass
+
         self.balance = True
 
         print("[mainloop]")
