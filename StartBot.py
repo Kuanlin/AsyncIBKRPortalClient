@@ -27,12 +27,12 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
         self.orderApproveReplied = False
-        print("---onPlaceOrdersResp")
+        print(f"##{name} : {content}")
 
     @BotBase.restResponse
     def onRespondChain_OrdersApprovResp(self, name, content):
         self.orderApproveReplied = True
-        print("---onRespondChain_OrdersApprovResp")
+        print(f"##{name} : {content}")
 
     @BotBase.restResponse
     def onTransactionHistoryResp(self, name, content):
@@ -70,10 +70,6 @@ class Bot(BotBase):
         jc = json.loads(content)
         #pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
         #print()
-    @BotBase.restResponse
-    def onPlaceOrdersResp(self, name, content):
-        print(f"##{name} : {content}")
-
 
     async def mainloop(self):
         await asyncio.sleep(0.5)
@@ -96,7 +92,7 @@ class Bot(BotBase):
                 RESTRequests.liveOrders(),
             ])
         tsm=self.myPositions.get('TSM')
-        pp(tsm)
+        #pp(tsm)
         if tsm != None and len(self.myLiveOrders)==0 and self.test == False:
                 if tsm.get('position') - 35.0 < 0.00001:
                     print("PLACE_TSM")
