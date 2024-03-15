@@ -102,7 +102,7 @@ class Bot(BotBase):
                         RESTRequests.placeOrders( 
                             orders = [ 
                                 Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ,
-                                Order(acctId = acctId,conid=msft.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=400, quantity=1, tif=OrderTIF.DAY) 
+                                #Order(acctId = acctId,conid=msft.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=400, quantity=1, tif=OrderTIF.DAY) 
                             ],
                             accountId = str(acctId)
                         ) 
