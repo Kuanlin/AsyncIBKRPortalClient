@@ -91,6 +91,7 @@ class Bot(BotBase):
             ])
 
         if tsm:=myPositions.get('TSM') and len(myLiveOrders==0):
+            print("place_TSM")
             if tsm.get('position') - 35.0 < 0.00001:
                 await restin.put([
                     Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ])
