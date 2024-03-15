@@ -20,9 +20,9 @@ class BotBase():
         return await restin.get()
 
     async def restOnResponse(self, response):
-        name = response['req']
-        response = response['rsp']
-        content = (await response.content.read()).decode('utf8')
+        name = response['name']
+        content = response['content']
+        #content = (await response.content.read()).decode('utf8')
         try:
             f = object.__getattribute__(self.__class__, f"on{name[0].upper()}{name[1:]}Resp")
             f(self, name, content)

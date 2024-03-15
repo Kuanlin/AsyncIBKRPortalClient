@@ -547,11 +547,12 @@ class RESTRequestSession:
                                     timeout = request["timeout"] ) )
                             try:
                                 resp = await session_request
+                                content = (await resp.content.read()).decode('utf8')
                                 resps.append(
-                                    { "req" : request_name, "rsp": resp}
+                                    { "name" : request_name, "content": content}
                                 )
                                 await self.onResponse(
-                                    { "req" : request_name, "rsp": resp})
+                                    { "name" : request_name, "content": content})
                                 #chain
                                 m = request.get("respchain")
                                 chain_length = 0
@@ -573,10 +574,12 @@ class RESTRequestSession:
                                                 timeout = request["timeout"] ) )
                                                 
                                         resp = await session_request
+                                        content = (await resp.content.read()).decode('utf8')
                                         resps.append(
-                                            { "req" : request_name, "rsp": resp})
+                                            { "name" : request_name, "content": content}
+                                        )
                                         await self.onResponse(
-                                            { "req" : request_name, "rsp": resp})
+                                            { "name" : request_name, "content": content})
                                         m = request.get("respchain")
                                     else:
                                         m = None
