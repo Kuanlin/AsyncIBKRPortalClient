@@ -17,6 +17,7 @@ class Bot(BotBase):
         self.balance = False
         self.orderSubmitted = False
         self.orderApproveReplied = True
+        self.test = False
         self.myPositions = {}
         self.myLiveOrders = {}
         #await restin.put ([
