@@ -558,7 +558,7 @@ class RESTRequestSession:
                                         raise Exception("MAX_CHAIN_ERROR")
                                     chain_length = chain_length + 1
                                     request_name = m.__name__
-                                    request = await m(content, request.get("respchain_kwarg"))
+                                    request = await m(content, **request.get("respchain_kwarg"))
                                     if request != None:
                                         session_request = asyncio.ensure_future(
                                             session.request(
