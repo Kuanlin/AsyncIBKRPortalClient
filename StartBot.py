@@ -19,28 +19,33 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
         self.orderApproveReplied = False
-        print("---onPlaceOrdersResp")
+        print(f"##{name}: {content}\n")
 
     @BotBase.restResponse
     def onRespondChain_OrdersApprovResp(self, name, content):
         self.orderApproveReplied = True
-        print("---onRespondChain_OrdersApprovResp")
+        print(f"##{name}: {content}\n")
 
     @BotBase.restResponse
     def onTransactionHistoryResp(self, name, content):
-        print("---onTransactionHistoryResp")
+        print(f"##{name}: {content}\n")
 
     @BotBase.restResponse
     def onLiveOrdersResp(self, name, content):
-        print("---onLiveOrdersResp")
+        print(f"##{name}: {content}\n")
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
-        print("---onPositionsAllResp")
+        print(f"##{name}: {content}\n")
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
-        print("---onRespondChain_PositionNextPageResp")
+        print(f"##{name}: {content}\n")
+
+    @BotBase.restResponse
+    def onSecurityStockBySymbolsResp(self, name, content):
+        print(f"##{name}: {content}\n")
+        print(f"##jcontent\n{json.loads(content)}\n-----------")
 
     async def mainloop(self):
         await asyncio.sleep(0.5)
