@@ -171,9 +171,7 @@ class RESTRequests:
     async def modifyOrders():
         pass
 
-    async def respondChain_OrdersApprov(responds, **kwargs):
-        content = (await responds.content.read()).decode('utf8')
-        print("content = ",content)
+    async def respondChain_OrdersApprov(content, **kwargs):
         jcontent = json.loads(content)
         replyId = jcontent.get("id")
         print(f"chain:::/v1/api/iserver/reply/{ replyId }")
@@ -329,8 +327,7 @@ class RESTRequests:
         }
 
 
-    async def respondChain_PositionNextPage(response, **kwargs):
-        content = (await response.content.read()).decode('utf8')
+    async def respondChain_PositionNextPage(content, **kwargs):
         if content == "" or content=="[]":
             return None
         accountId = kwargs["accountId"]
@@ -561,7 +558,7 @@ class RESTRequestSession:
                                         raise Exception("MAX_CHAIN_ERROR")
                                     chain_length = chain_length + 1
                                     request_name = m.__name__
-                                    request = await m(resp, **request.get("respchain_kwarg"))
+                                    request = await m(content, **request.get("respchain_kwarg"))
                                     if request != None:
                                         session_request = asyncio.ensure_future(
                                             session.request(
