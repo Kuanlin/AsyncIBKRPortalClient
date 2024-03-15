@@ -101,7 +101,7 @@ class Bot(BotBase):
         
         if tsm != None :
             print("place_TSM")
-                if and len(self.myLiveOrders==0):
+                if len(self.myLiveOrders==0):
                     print("place_TSM_len")
                     if tsm.get('position') - 35.0 < 0.00001:
                         await restin.put([
