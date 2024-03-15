@@ -50,7 +50,7 @@ class Bot(BotBase):
         #print(f"##{name} : ", end="")
         jc = json.loads(content)
         self.myPositions = { p.get('contractDesc'):p for p in jc }
-        pp(self.myPositions)
+        #pp(self.myPositions)
         #myPositions = pos
         #for p in pos:
         #    print(f"DESC:{p.get('contractDesc')}\nPOS:{p.get('position')}\nMKP:{p.get('mktPrice')}")
@@ -58,16 +58,15 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
         #print(f"##{name} : {content}")
-        print()
+        #print()
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
         #print(f"##{name} : ", end="")
         #pp(json.loads(content))
         jc = json.loads(content)
-        pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
-        print()
-
+        #pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
+        #print()
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
         print(f"##{name} : {content}")
