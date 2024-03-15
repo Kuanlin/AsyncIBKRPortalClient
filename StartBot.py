@@ -54,7 +54,9 @@ class Bot(BotBase):
     def onSecurityStocksBySymbolsResp(self, name, content):
         print(f"##{name} : ", end="")
         #pp(json.loads(content))
-        pp([ c for c in json.loads(content).keys() ])
+        jc = json.loads(content)
+        pp([ (c, jc.get(c)) for c in jc.keys() ])
+        
         print()
 
 
