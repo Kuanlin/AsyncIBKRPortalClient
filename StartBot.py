@@ -23,6 +23,28 @@ class Bot(BotBase):
         #await restin.put ([
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
+        restin.put ([
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+        ])
 
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
@@ -94,6 +116,7 @@ class Bot(BotBase):
         tsm=self.myPositions.get('TSM')
         msft=self.myPositions.get('MSFT')
         #pp(tsm)
+        '''
         if tsm != None and len(self.myLiveOrders)==0 and self.test == False:
                 if tsm.get('position') - 35.0 < 0.00001:
                     print("PLACE_TSM")
@@ -106,7 +129,7 @@ class Bot(BotBase):
                             ],
                             accountId = str(acctId)
                         ) 
-                    ])
+                    ])'''
 
         self.balance = True
 
