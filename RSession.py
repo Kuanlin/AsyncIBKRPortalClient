@@ -87,8 +87,8 @@ class Order:
             "acctId" : self.acctId,
             "conid" : self.conid,
             "side" : self.side,
-            "price" : self.price_str,
-            "quantity" : self.quantity_str,
+            "price" : float(self.price_str),
+            "quantity" : float(self.quantity_str),
             "orderType" : self.orderType,
             "tif" : self.tif
         }
