@@ -55,7 +55,7 @@ class Bot(BotBase):
         print(f"##{name} : ", end="")
         #pp(json.loads(content))
         jc = json.loads(content)
-        pp([ (c, jc.get(c)) for c in jc.keys() ])
+        pp([ (c, jc.get(c)[0].get("contracts")[0]) for c in jc.keys() ])
         
         print()
 
