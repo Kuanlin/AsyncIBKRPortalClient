@@ -9,6 +9,7 @@ jf = open("config.json","r")
 acctId = "U"+json.load(jf)["id"]
 
 myPositions = {}
+myLiveOrders = {}
 
 class Bot(BotBase):
 
@@ -40,6 +41,7 @@ class Bot(BotBase):
     def onLiveOrdersResp(self, name, content):
         jc = json.loads(content)
         print("liveOrders:")
+        myLiveOrders = jc.get('orders')
         pp(jc)
 
     @BotBase.restResponse
@@ -88,11 +90,10 @@ class Bot(BotBase):
                 RESTRequests.liveOrders(),
             ])
 
-        #if tsm:=myPositions.get('TSM'):
-        #    if tsm.get('position') - 35.0 < 0.00001:
-        #        await restin.put([
-        #            Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ])
-        #    pass
+        if tsm:=myPositions.get('TSM') and len(myLiveOrders==0):
+            if tsm.get('position') - 35.0 < 0.00001:
+                await restin.put([
+                    Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ])
 
         self.balance = True
 
