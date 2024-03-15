@@ -23,7 +23,7 @@ class Bot(BotBase):
         #await restin.put ([
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
-        restin.put ([
+        await restin.put ([
             RESTRequests.placeOrders( 
                 orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)],
                 accountId = str(acctId)
