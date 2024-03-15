@@ -66,7 +66,7 @@ class Bot(BotBase):
         #print("liveOrders:")
         self.myLiveOrders = jc.get('orders')
         #print(f"liveOrders: {self.myLiveOrders} {type(self.myLiveOrders)}")
-        #pp(jc)
+        pp(jc)
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
