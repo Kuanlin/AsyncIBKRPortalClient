@@ -23,6 +23,7 @@ class Bot(BotBase):
         #await restin.put ([
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
+        '''
         await restin.put ([
             RESTRequests.placeOrders( 
                 orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=120, quantity=1, tif=OrderTIF.DAY)],
@@ -44,7 +45,7 @@ class Bot(BotBase):
                 orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=120, quantity=1, tif=OrderTIF.DAY)],
                 accountId = str(acctId)
             ),
-        ])
+        ])'''
 
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
