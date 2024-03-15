@@ -43,7 +43,8 @@ class Bot(BotBase):
         #print(f"##{name} : {content}")
         print(f"##{name} : ", end="")
         jc = json.loads(content)
-        pos = [ p for p in jc ]
+        pos = { p for p in jc }
+        
         print(f"DESC:{pos.get('contractDesc')}\nPOS:{pos.get('position')}\nMKP:{pos.get('mktPrice')}")
 
     @BotBase.restResponse
