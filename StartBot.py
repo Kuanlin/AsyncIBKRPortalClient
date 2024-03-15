@@ -4,6 +4,7 @@ from BotBase import BotBase
 from RSession import *
 from WSession import *
 from pprint import pprint as pp
+
 jf = open("config.json","r")
 acctId = "U"+json.load(jf)["id"]
 
@@ -52,7 +53,8 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
         print(f"##{name} : ", end="")
-        pp(json.loads(content))
+        #pp(json.loads(content))
+        pp([ c for c in content.keys() ])
         print()
 
 
@@ -73,7 +75,7 @@ class Bot(BotBase):
             print(acctId)
             await restin.put([
                 RESTRequests.positionsAll(pageId = 0, accountId = acctId),    
-                RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "APPL", "TSLA"]) ])
+                RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]) ])
         self.balance = True
 
         print("[mainloop]")
