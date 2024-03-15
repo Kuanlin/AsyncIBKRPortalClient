@@ -70,7 +70,7 @@ class Bot(BotBase):
         #pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
         #print()
     @BotBase.restResponse
-    def onPlaceOrdersResp(self, name, content):
+    def  (self, name, content):
         print(f"##{name} : {content}")
 
 
@@ -106,7 +106,8 @@ class Bot(BotBase):
                 print("place_TSM_len")
                 if tsm.get('position') - 35.0 < 0.00001:
                     await restin.put([
-                        Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ])
+                        RESTRequests.placeOrders(
+                            [Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)] ])
 
         self.balance = True
 
