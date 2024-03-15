@@ -100,11 +100,10 @@ class Bot(BotBase):
         #print("MyOrd:", end="")
         #pp()
 
-        if tsm != None :
-            print("place_TSM")
-            if len(self.myLiveOrders)==0:
-                print("place_TSM_len")
+        if tsm != None and if len(self.myLiveOrders)==0 and self.test = False
                 if tsm.get('position') - 35.0 < 0.00001:
+                    print("PLACE_TSM")
+                    self.test = True
                     await restin.put([
                         RESTRequests.placeOrders(
                             [Order(conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY)]) ])
