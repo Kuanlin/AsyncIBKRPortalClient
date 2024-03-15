@@ -68,6 +68,10 @@ class Bot(BotBase):
         pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
         print()
 
+    @BotBase.restResponse
+    def onPlaceOrdersResp(self, name, content):
+        print(f"##{name} : {content}")
+
 
     async def mainloop(self):
         await asyncio.sleep(0.5)
