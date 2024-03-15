@@ -173,6 +173,7 @@ class RESTRequests:
 
     async def respondChain_OrdersApprov(responds, **kwargs):
         content = (await responds.content.read()).decode('utf8')
+        print("content = ",content)
         jcontent = json.loads(content)
         replyId = jcontent.get("id")
         print(f"chain:::/v1/api/iserver/reply/{ replyId }")
