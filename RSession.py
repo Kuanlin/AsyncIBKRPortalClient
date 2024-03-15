@@ -526,6 +526,7 @@ class RESTRequestSession:
                             request = await request_coro
                             
                             #logger.debug(f"REST_REQUEST:{request}")
+                            print("METHOD:", request["method"])
                             print(IBKRClientPortalURI+request["url"])
                             print("data = ",end="")
                             pp(request.get("data"))
