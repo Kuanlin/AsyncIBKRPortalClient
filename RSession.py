@@ -255,7 +255,7 @@ class RESTRequests:
 
 
     async def portfolioSubaccountsL(page: int = 0, timeout: int = DEFAULT_TIMEOUT) -> dict:
-        assert type(page) == int and len(page) >= 0
+        assert type(page) == int and page >= 0
         return {
             "method": r"GET",
             "url": r"/v1/api/portfolio/subaccounts2",
@@ -334,7 +334,7 @@ class RESTRequests:
         pageId = kwargs["pageId"]
         timeout = kwargs["timeout"]
         assert type(accountId) == str and len(accountId) > 0
-        assert type(pageId) == int and len(pageId) >= 0
+        assert type(pageId) == int and pageId >= 0
         return {
             "method": r"GET",
             "url": f"/v1/api/portfolio/{accountId}/positions/{pageId}",
