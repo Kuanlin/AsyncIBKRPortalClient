@@ -58,11 +58,10 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
-        print(f"##{name} : ", end="")
+        #print(f"##{name} : ", end="")
         #pp(json.loads(content))
         jc = json.loads(content)
         pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
-        
         print()
 
 
