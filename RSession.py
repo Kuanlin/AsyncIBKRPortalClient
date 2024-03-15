@@ -504,7 +504,7 @@ from collections import deque
 import traceback, sys
 restin = asyncio.Queue()
 resterrout = asyncio.Queue()
-
+from pprint import pprint as pp
 class RESTRequestSession:
 
     def __init__(self):
@@ -527,6 +527,8 @@ class RESTRequestSession:
                             
                             #logger.debug(f"REST_REQUEST:{request}")
                             print(IBKRClientPortalURI+request["url"])
+                            print("data = ",end="")
+                            pp(request.get("data"))
                             session_request = asyncio.ensure_future(
                                 session.request(
                                     method = request["method"],
