@@ -42,8 +42,9 @@ class Bot(BotBase):
     def onPositionsAllResp(self, name, content):
         #print(f"##{name} : {content}")
         print(f"##{name} : ", end="")
-        pp(json.loads(content))
-        print()
+        jc = json.loads(content)
+        pos = [ p for p in jc ]
+        print(f"DESC:{pos.get('contractDesc')}\nPOS:{pos.get('position')}\nMKP:{pos.get('mktPrice')}")
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
