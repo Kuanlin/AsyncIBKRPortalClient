@@ -536,7 +536,7 @@ class RESTRequestSession:
                                     url = request["url"],
                                     headers = headers | {} if not request.get("headers") else request.get("headers"),
                                     params = request["params"],
-                                    data = request.get("data") if request.get("data") else "{}",
+                                    data = request.get("data") if request.get("data")!=None else {},
                                     allow_redirects = False,
                                     timeout = request["timeout"] ) )
                             try:
