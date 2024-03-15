@@ -526,7 +526,7 @@ class RESTRequestSession:
                             request = await request_coro
                             
                             #logger.debug(f"REST_REQUEST:{request}")
-                            #print(IBKRClientPortalURI+"/"+request["method"].lower())
+                            print(IBKRClientPortalURI+request["url"])
                             session_request = asyncio.ensure_future(
                                 session.request(
                                     method = request["method"],
