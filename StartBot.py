@@ -40,7 +40,7 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onLiveOrdersResp(self, name, content):
         jc = json.loads(content)
-        print("liveOrders:")
+        #print("liveOrders:")
         self.myLiveOrders = jc.get('orders')
         print(f"liveOrders: {self.myLiveOrders} {type(self.myLiveOrders)}")
         #pp(jc)
@@ -95,10 +95,10 @@ class Bot(BotBase):
                 RESTRequests.liveOrders(),
             ])
         #print("MyPos:", end="")
-        #tsm=self.myPositions.get('TSM')
+        tsm=self.myPositions.get('TSM')
         #pp(tsm)
         print("MyOrd:", end="")
-        pp(self.myLiveOrders)
+        pp(tsm)
         
         if tsm != None :
             print("place_TSM")
