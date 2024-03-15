@@ -92,6 +92,7 @@ class Bot(BotBase):
                 RESTRequests.liveOrders(),
             ])
         tsm=self.myPositions.get('TSM')
+        msft=self.myPositions.get('MSFT')
         #pp(tsm)
         if tsm != None and len(self.myLiveOrders)==0 and self.test == False:
                 if tsm.get('position') - 35.0 < 0.00001:
@@ -100,7 +101,8 @@ class Bot(BotBase):
                     await restin.put([
                         RESTRequests.placeOrders( 
                             orders = [ 
-                                Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) 
+                                Order(acctId = acctId,conid=tsm.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=130, quantity=1, tif=OrderTIF.DAY) ,
+                                Order(acctId = acctId,conid=msft.get('conid'), side=OrderSide.BUY, orderType=OrderType.LIMIT, price=400, quantity=1, tif=OrderTIF.DAY) 
                             ],
                             accountId = str(acctId)
                         ) 
