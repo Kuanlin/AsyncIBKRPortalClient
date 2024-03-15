@@ -165,8 +165,45 @@ class RESTRequests:
     async def modifyOrderRaw(timeout: int = DEFAULT_TIMEOUT):
         pass
 
-    async def modifyOrder(timeout: int = DEFAULT_TIMEOUT):
-        pass
+    async def modifyOrder(
+            orderId: str,
+            conid: int,
+            price: float,
+            quantity: float,
+            orderType: str,
+            side: str,
+            tif: str,
+            accountId: str = DEFAULT_ACCOUNTID, 
+            timeout: int = DEFAULT_TIMEOUT) -> dict:
+        
+        dataDict = {
+            "price": price,
+            "quantity": quantity,
+        }
+        if price:
+            dataDict["price"] = price
+        if quantity:
+            dataDict["quantity"] = quantity
+        if conid:
+            dataDict["conid"] = conid
+        if orderType:
+            dataDict["orderType"] = orderType
+        if side:
+            dataDict["side"] = side
+        if tif:
+            dataDict["tid"] = tif
+
+        dataStr = json.dumps(dataDict)
+
+        return {
+            "method": r"POST",
+            "url": f"/v1/api/iserver/account/{accountId}/order/{orderId}",
+            "params": "",
+            "data": dataStr,
+            "respchain": RESTRequests.respondChain_OrdersApprov,
+            "respchain_kwarg": { "accountId": accountId },
+            "timeout": timeout
+        }
 
     async def modifyOrders():
         pass
