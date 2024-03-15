@@ -49,6 +49,13 @@ class Bot(BotBase):
         print(f"##{name} : {content}")
         print()
 
+    @BotBase.restResponse
+    def onSecurityStocksBySymbolsResp(self, name, content):
+        print(f"##{name} : ", end="")
+        pp(json.loads(content))
+        print()
+
+
     async def mainloop(self):
         await asyncio.sleep(0.5)
         #calculate all
@@ -64,8 +71,9 @@ class Bot(BotBase):
         if not self.balance:
             pageId = 0
             print(acctId)
-            #await restin.put([
-            #    RESTRequests.positionsAll(pageId = 0, accountId = acctId)    ])
+            await restin.put([
+                RESTRequests.positionsAll(pageId = 0, accountId = acctId),    
+                securityStocksBySymbols(["TSM", "MSFT", "APPL", "TSLA"]) ])
         self.balance = True
 
         print("[mainloop]")
