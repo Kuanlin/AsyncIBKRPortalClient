@@ -89,7 +89,8 @@ class Bot(BotBase):
                 #RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]),
                 RESTRequests.liveOrders(),
             ])
-
+        pp(myPositions)
+        pp(myLiveOrders)
         if tsm:=myPositions.get('TSM') and len(myLiveOrders==0):
             print("place_TSM")
             if tsm.get('position') - 35.0 < 0.00001:
