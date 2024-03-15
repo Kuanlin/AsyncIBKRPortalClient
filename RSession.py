@@ -154,7 +154,8 @@ class RESTRequests:
         return {
             "method": r"POST",
             "url": f"/v1/api/iserver/account/{accountId}/orders",
-            "params": orderListStr,
+            "params": "",
+            "data": orderListStr,
             "respchain": RESTRequests.respondChain_OrdersApprov,
             "respchain_kwarg": { "accountId": accountId },
             "timeout": timeout
@@ -412,7 +413,8 @@ class RESTRequests:
         return {
             "method": r"POST",
             "url": f"/v1/api/pa/transactions",
-            "params": f"json={json_content}",
+            "params": "",
+            "data": f"json={json_content}",
             "timeout": timeout
         }
 
@@ -436,7 +438,8 @@ class RESTRequests:
         return {
             "method": r"POST",
             "url": f"/v1/api/iserver/auth/status",
-            "params": "json=",
+            "params": "",
+            "data": "{}",
             "timeout": timeout
         }
 
@@ -449,7 +452,8 @@ class RESTRequests:
         return {
             "method": r"POST",
             "url": f"/v1/api/logout",
-            "params": "json=",
+            "params": "",
+            "data": "{}",
             "timeout": timeout
         }
 
@@ -457,7 +461,8 @@ class RESTRequests:
         return {
             "method": r"POST",
             "url": f"/v1/api/tickle",
-            "params": "json=",
+            "params": "",
+            "data": "{}",
             "timeout": timeout
         }
 
@@ -528,6 +533,7 @@ class RESTRequestSession:
                                     url = request["url"],
                                     headers = headers | {} if not request.get("headers") else request.get("headers"),
                                     params = request["params"],
+                                    data = request.get("data") if request.get("data") else "{}",
                                     allow_redirects = False,
                                     timeout = request["timeout"] ) )
                             try:
@@ -553,6 +559,7 @@ class RESTRequestSession:
                                                 url = request["url"],
                                                 headers = headers | {} if not request.get("headers") else request.get("headers"),
                                                 params = request["params"],
+                                                data = request.get("data") if request.get("data") else "{}",
                                                 allow_redirects = False,
                                                 timeout = request["timeout"] ) )
                                                 
