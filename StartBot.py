@@ -73,7 +73,7 @@ class Bot(BotBase):
             print(acctId)
             await restin.put([
                 RESTRequests.positionsAll(pageId = 0, accountId = acctId),    
-                RESTRequests.scurityStocksBySymbols(["TSM", "MSFT", "APPL", "TSLA"]) ])
+                RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "APPL", "TSLA"]) ])
         self.balance = True
 
         print("[mainloop]")
