@@ -21,6 +21,9 @@ class Bot(BotBase):
         #await restin.put ([
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
+        await restin.put([
+            RESTRequests.portfolioSummary()
+        ])
         '''
         await restin.put ([
             RESTRequests.placeOrders( 
@@ -96,6 +99,33 @@ class Bot(BotBase):
         #pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
         #print()
 
+    @BotBase.restResponse
+    def onPortfolioSummaryResp(self, name, content):
+        print(f"##{name} : ", end="")
+        pp(json.loads(content))
+        
+        '''
+        {
+        "accountcode": {
+            "amount": 0.0,
+            "currency": null,
+            "isNull": false,
+            "timestamp": 1702582422000,
+            "value": "U1234567",
+            "severity": 0
+        },
+        {...},
+        "indianstockhaircut": {
+            "amount": 0.0,
+            "currency": "USD",
+            "isNone": false,
+            "timestamp": 1702582422000,
+            "value": null,
+            "severity": 0
+        }
+        }'''
+        
+
     async def mainloop(self):
         await asyncio.sleep(0.5)
         #calculate all
@@ -111,11 +141,11 @@ class Bot(BotBase):
         if not self.balance:
             pageId = 0
             #print(acctId)
-            await restin.put([
-                RESTRequests.positionsAll(pageId = 0, accountId = acctId),    
+            #await restin.put([
+                #RESTRequests.positionsAll(pageId = 0, accountId = acctId),    
                 #RESTRequests.securityStocksBySymbols(["TSM", "MSFT", "AAPL", "TSLA"]),
-                RESTRequests.liveOrders(),
-            ])
+                #RESTRequests.liveOrders(),
+            #])
         tsm=self.myPositions.get('TSM')
         msft=self.myPositions.get('MSFT')
         #pp(tsm)
