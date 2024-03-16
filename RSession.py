@@ -1,16 +1,7 @@
 import aiohttp
 import asyncio, json
 from typing import Union
-
-MAX_CHAIN_LENGTH = 200
-IBKRClientPortalURI = "https://localhost:5000"
-#IBKRClientPortalURI = "https://httpbin.org"
-DEFAULT_TIMEOUT = 10
-DEFAULT_ACCOUNTID = "DEFAULT_ACCOUNTID"
-DEFAULT_CURRENCY = "USD"
-DEFAULT_PRICE_DECIMALS = 3
-DEFAULT_QUANTITY_DECIMALS = 3
-DEFAULT_ORDER_CONFIRM = True
+from DefaultValues import *
 
 class OrderSide:
     BUY = "buy"

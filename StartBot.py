@@ -4,9 +4,7 @@ from BotBase import BotBase
 from RSession import *
 from WSession import *
 from pprint import pprint as pp
-
-jf = open("config.json","r")
-acctId = "U"+json.load(jf)["id"]
+from DefaultValues import *
 
 
 
