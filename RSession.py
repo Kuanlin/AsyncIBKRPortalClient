@@ -433,7 +433,7 @@ class RESTRequests:
         raise NotImplementedError
 
     async def transactionHistory(
-        conids: list = None, 
+        conid: int = None, 
         days: int = 1,
         accountIds: list = [ DEFAULT_ACCOUNTID ], 
         currency: str = DEFAULT_CURRENCY,  
@@ -441,7 +441,7 @@ class RESTRequests:
 
         assert type(accountIds) == list and len(accountIds) > 0
         assert all( [ type(a) == str and len(a) > 0 for a in accountIds ] )
-        assert type(conids) == list and len(conids) > 0
+        assert type(conid) == int
         assert all( [ type(c) == int for c in conids] )
         assert type(currency) == str
         assert type(days) == int
@@ -449,7 +449,7 @@ class RESTRequests:
 
         json_content = json.dumps({ 
             "acctIds" : accountIds, 
-            "conids" : conids, 
+            "conids" : conid, 
             "currency" : currency,
             "days" : days} )
 
