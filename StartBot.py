@@ -24,10 +24,12 @@ class Bot(BotBase):
         self.dividends = None
 
 
-        gp = [ {x:group_proportion[x]} for x in group_proportion]
-        pp(gp)
-        stkp = stk_param 
-        pp(stkp)
+        self.gp = [ {x:group_proportion[x]} for x in group_proportion]
+        pp(self.gp)
+        self.stkp = stk_param 
+        pp(self.stkp)
+        self.symbols = list( self.stkp.keys() )
+        self.symbol2conid = {}
 
 
         jobs = self.scheduler.get_jobs()
@@ -38,12 +40,21 @@ class Bot(BotBase):
 
 
     async def getInfoRequests(self):
+        await restin.put([RESTRequests.securityFuturesBySymbols(
+            symbols = self.symbols
+        )])
+        await asyncio.sleep(0)
         await restin.put([
             RESTRequests.positionsAll(), #to get current positions
             RESTRequests.liveOrders(), #to get liveOrders
             RESTRequests.portfolioLedger(), #to get balance
             RESTRequests.transactionHistory(conids = [6223250]), #to ensure the transaction the orders are filled
         ])
+
+    @BotBase.restResponse
+    def onSecurityFuturesBySymbolsResp(self, name, content):
+        jc = json.loads(content)
+        print(f"##{name} : {jc}")
 
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
