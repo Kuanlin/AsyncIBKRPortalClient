@@ -46,7 +46,8 @@ class Bot(BotBase):
 
 
     async def getInfoRequests(self):
-        await asyncio.sleep(0)
+        while( len(self.conids) >0):
+            await asyncio.sleep(0)
         await restin.put([
             RESTRequests.positionsAll(), #to get current positions
             RESTRequests.liveOrders(), #to get liveOrders
