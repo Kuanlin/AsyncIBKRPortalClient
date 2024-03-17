@@ -25,8 +25,10 @@ class Bot(BotBase):
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
         await restin.put([
+            RESTRequests.positionsAll(),
+            RESTRequests.liveOrders(),
             RESTRequests.portfolioLedger(),
-            RESTRequests.transactionHistory(conids = [6223250])
+            RESTRequests.transactionHistory(conids = [6223250]),
         ])
         '''
         await restin.put ([
