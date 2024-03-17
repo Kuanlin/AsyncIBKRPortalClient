@@ -40,7 +40,7 @@ class Bot(BotBase):
 
 
     async def getInfoRequests(self):
-        await restin.put([RESTRequests.securityFuturesBySymbols(
+        await restin.put([RESTRequests.securityStocksBySymbols(
             symbols = self.symbols
         )])
         await asyncio.sleep(0)
@@ -52,7 +52,7 @@ class Bot(BotBase):
         ])
 
     @BotBase.restResponse
-    def onSecurityFuturesBySymbolsResp(self, name, content):
+    def onSecurityStocksBySymbolsResp(self, name, content):
         jc = json.loads(content)
         print(f"##{name} : {jc}")
 
@@ -91,11 +91,6 @@ class Bot(BotBase):
         self.myPositions = self.myPositions | newPositions
         if len(newPositions) < 30 and len(newPositions)>0:
             pp(self.myPositions)
-
-
-    @BotBase.restResponse
-    def onSecurityStocksBySymbolsResp(self, name, content):
-        jc = json.loads(content)
        
     @BotBase.restResponse
     def onPortfolioLedgerResp(self, name, content):
