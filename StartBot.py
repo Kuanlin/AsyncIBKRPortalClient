@@ -56,6 +56,11 @@ class Bot(BotBase):
         jc = json.loads(content)
         print(f"##{name} : ")
         pp(jc)
+        self.symbol2conid = {
+            x:jc[x][0]['contracts'][0]['conid'] for x in self.symbols
+        }
+        print(f"##symbol2conid : ")
+        pp(self.symbol2conid)
 
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
