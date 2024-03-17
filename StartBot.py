@@ -35,6 +35,10 @@ class Bot(BotBase):
         self.conids = []
 
         jobs = self.scheduler.get_jobs()
+        await restin.put([RESTRequests.securityStocksBySymbols(
+            symbols = self.symbols
+        )])
+        await asyncio.sleep(2)
         await self.getInfoRequests()
         for i in jobs:
             i.remove()
@@ -42,9 +46,6 @@ class Bot(BotBase):
 
 
     async def getInfoRequests(self):
-        await restin.put([RESTRequests.securityStocksBySymbols(
-            symbols = self.symbols
-        )])
         await asyncio.sleep(0)
         await restin.put([
             RESTRequests.positionsAll(), #to get current positions
@@ -65,6 +66,10 @@ class Bot(BotBase):
         self.conids = list(self.symbol2conid.values())
         print(f"##symbol2conid : ", end="")
         pp(self.symbol2conid)
+        print(f"##conid2symbol : ", end="")
+        pp(self.conid2symbol)
+        print(f"##conids : ", end="")
+        pp(self.conids)
 
 
     @BotBase.restResponse
