@@ -442,7 +442,6 @@ class RESTRequests:
         assert type(accountIds) == list and len(accountIds) > 0
         assert all( [ type(a) == str and len(a) > 0 for a in accountIds ] )
         assert type(conid) == int
-        assert all( [ type(c) == int for c in conids] )
         assert type(currency) == str
         assert type(days) == int
         assert days > 0
