@@ -88,7 +88,7 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
-        #print(f"##{name} : {content}")
+        print(f"##{name} : {content}")
         #print()
         pass
 
