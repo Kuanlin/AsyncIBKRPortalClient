@@ -147,14 +147,17 @@ class Bot(BotBase):
         self.initialized[name] = True
 
     async def mainloop(self):
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(1)
         if all(self.initialized.values()):
             print("[running]", end="", flush=True)
             quota = self.netliquidationvalue
             grouped_quota = {
                 x: self.gp[x]*quota for x in self.gp.keys()
             }
-            print(f"#QUOTA::{quota} => {grouped_quota}")
+            stock_quota = {
+                x:self.stkp[x]|{"quota":self.stkp[x]["in_group_proportion"]*grouped_quota[x]} for x in self.stkp.keys()
+            }
+            print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
 
         else:
            print("[waiting for initialized]", end="", flush=True)
