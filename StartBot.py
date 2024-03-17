@@ -11,6 +11,10 @@ class Bot(BotBase):
 
     async def restInit(self):
         print("---restInit")
+        self.initialized = {
+            "portfolioLedger":False,
+            "positionsAll":False,
+        }
         self.balance = False
         self.orderSubmitted = False
         self.orderApproveReplied = True
@@ -33,6 +37,8 @@ class Bot(BotBase):
         pp(self.stkp)
         self.symbols = list( self.stkp.keys() )
 
+        self.grouped_quota = {}
+
         self.symbol2conid = {}
         self.conid2symbol = {}
         self.conids = []
@@ -50,9 +56,9 @@ class Bot(BotBase):
         print("testconids")
         print(self.conids)
         await restin.put([
+            RESTRequests.portfolioLedger(), #to get balance
             RESTRequests.positionsAll(), #to get current positions
             RESTRequests.liveOrders(), #to get liveOrders
-            RESTRequests.portfolioLedger(), #to get balance
         ])
         histRequest = [RESTRequests.transactionHistory(conid = x, days=7) for x in self.conids]
         await restin.put( histRequest )
@@ -109,6 +115,7 @@ class Bot(BotBase):
                 } for x in self.symbols
             }
             pp(self.positions)
+            self.initialized[name] = True
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
@@ -124,6 +131,7 @@ class Bot(BotBase):
                 } for x in self.symbols
             }
             pp(self.positions)
+            self.initialized[name] = True
        
     @BotBase.restResponse
     def onPortfolioLedgerResp(self, name, content):
@@ -137,9 +145,12 @@ class Bot(BotBase):
         print(f"cash = {self.cashbalance}")
         print(f"stockmarketvalue = {self.stockmarketvalue}")
         print(f"total = {self.netliquidationvalue}")
-        
+        self.initialized[name] = True
+
     async def mainloop(self):
         await asyncio.sleep(0.5)
+        if all(self.initialized.values()):
+            print(".")
         print("[ml]", end="", flush=True)
 
 
