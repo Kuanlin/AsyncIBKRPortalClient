@@ -156,9 +156,7 @@ class Bot(BotBase):
                     x: self.gp[x]*quota for x in self.gp.keys()
                 }
                 stock_quota = {
-                    x: {
-                        "quota": self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
-                    } 
+                    x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
                     for x in self.stkp.keys()
                 }
                 print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
