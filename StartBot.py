@@ -54,7 +54,8 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
         jc = json.loads(content)
-        print(f"##{name} : {jc}")
+        print(f"##{name} : ")
+        pp(jc)
 
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
