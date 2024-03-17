@@ -105,7 +105,7 @@ class Bot(BotBase):
        
     @BotBase.restResponse
     def onPortfolioLedgerResp(self, name, content):
-        c = content["DEFAULT_CURRENCY"]
+        c = content[DEFAULT_CURRENCY]
         self.cashbalance = c.get("cashbalance")
         self.stockmarketvalue = c.get("stockmarketvalue")
         self.dividends = c.get("dividends")
