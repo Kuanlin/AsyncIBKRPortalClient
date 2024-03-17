@@ -50,9 +50,9 @@ class Bot(BotBase):
             RESTRequests.positionsAll(), #to get current positions
             RESTRequests.liveOrders(), #to get liveOrders
             RESTRequests.portfolioLedger(), #to get balance
-        ].extend(
-            [RESTRequests.transactionHistory(conids = x) for x in self.conids] )
-        )
+        ])
+        histRequest = [RESTRequests.transactionHistory(conids = x) for x in self.conids]
+        await restin.put( histRequest )
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
