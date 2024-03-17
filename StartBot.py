@@ -22,7 +22,8 @@ class Bot(BotBase):
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
         await restin.put([
-            RESTRequests.portfolioSummary()
+            RESTRequests.portfolioSummary(),
+            RESTRequests.portfolioLedger()
         ])
         '''
         await restin.put ([
@@ -104,26 +105,10 @@ class Bot(BotBase):
         print(f"##{name} : ", end="")
         pp(json.loads(content))
         
-        '''
-        {
-        "accountcode": {
-            "amount": 0.0,
-            "currency": null,
-            "isNull": false,
-            "timestamp": 1702582422000,
-            "value": "U1234567",
-            "severity": 0
-        },
-        {...},
-        "indianstockhaircut": {
-            "amount": 0.0,
-            "currency": "USD",
-            "isNone": false,
-            "timestamp": 1702582422000,
-            "value": null,
-            "severity": 0
-        }
-        }'''
+    @BotBase.restResponse
+    def onPortfolioLedgerResp(self, name, content):
+        print(f"##{name} : ", end="")
+        pp(json.loads(content))
         
 
     async def mainloop(self):
