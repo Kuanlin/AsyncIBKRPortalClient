@@ -31,7 +31,7 @@ class Bot(BotBase):
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
 
 
-    async def getInfoRequests():
+    async def getInfoRequests(self):
         await restin.put([
             RESTRequests.positionsAll(),
             RESTRequests.liveOrders(),
