@@ -150,8 +150,9 @@ class Bot(BotBase):
     async def mainloop(self):
         await asyncio.sleep(0.5)
         if all(self.initialized.values()):
-            print(".")
-        print("[ml]", end="", flush=True)
+            print("[iml]", end="", flush=True)
+        else:
+           print("[oml]", end="", flush=True)
 
 
 async def IBKRMain():
