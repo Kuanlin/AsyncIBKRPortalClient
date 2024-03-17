@@ -150,9 +150,13 @@ class Bot(BotBase):
     async def mainloop(self):
         await asyncio.sleep(0.5)
         if all(self.initialized.values()):
-            print("[iml]", end="", flush=True)
+            print("[running]", end="", flush=True)
+            quota = self.netliquidationvalue
+            #self.gp["0"]=?
+            grouped_quota = { x:quota*self.gp[x] for x in self.gp.keys() }
+            print(grouped_quota, end="", flush=True)
         else:
-           print("[oml]", end="", flush=True)
+           print("[waiting for initialized]", end="", flush=True)
 
 
 async def IBKRMain():
