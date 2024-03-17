@@ -17,6 +17,10 @@ class Bot(BotBase):
         self.test = False
         self.myPositions = {}
         self.myLiveOrders = {}
+
+        self.stock2conid = {}
+        self.conid2stock = {}
+
         self.cashbalance = None
         self.netliquidationvalue = None
         self.stockmarketvalue = None
@@ -82,19 +86,20 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
         jc = json.loads(content)
-        print(f"##{name} :")
-        pp(jc)
-        #self.myPositions = { p.get('contractDesc'):p for p in jc }
-        #print(f"##{name} : ", end="")
-        #pp(self.myPositions)
+        #print(f"##{name} :")
+        #pp(jc)
+        self.myPositions = { p.get('contractDesc'):p for p in jc }
+        print(f"##{name} : ", end="")
+        if len(self.myPositions) < 30:
+            pp(self.myPositions)
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
         jc = json.loads(content)
-        print(f"##{name} :")
-        pp(jc)
-        #print()
-        pass
+        self.myPositions = self.myPositions | { p.get('contractDesc'):p for p in jc }
+        if len(self.myPositions) < 30:
+            pp(self.myPositions)
+
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
