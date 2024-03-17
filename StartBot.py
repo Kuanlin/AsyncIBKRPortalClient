@@ -28,7 +28,7 @@ class Bot(BotBase):
         jobs = self.scheduler.get_jobs()
         for i in jobs:
             i.remove()
-        self.scheduler(self.getInfoRequests, 'interval', seconds=5)
+        self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
 
 
     async def getInfoRequests():
