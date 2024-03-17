@@ -96,8 +96,9 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
         jc = json.loads(content)
-        self.myPositions = self.myPositions | { p.get('contractDesc'):p for p in jc }
-        if len(self.myPositions) < 30:
+        newPositions = { p.get('contractDesc'):p for p in jc }
+        self.myPositions = self.myPositions | newPositions
+        if len(newPositions) < 30 and len(newPositions)>0:
             pp(self.myPositions)
 
 
