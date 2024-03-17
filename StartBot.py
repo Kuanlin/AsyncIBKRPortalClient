@@ -77,19 +77,13 @@ class Bot(BotBase):
         #print(f"##{name} : {content}")
         jc = json.loads(content)
         self.myLiveOrders = jc.get('orders')
-        print(f"liveOrders: {self.myLiveOrders} {type(self.myLiveOrders)}")
-        #pp(jc)
+        print(f"##{name} : {self.myLiveOrders}")
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
-        #print(f"##{name} : {content}")
-        #print(f"##{name} : ", end="")
         jc = json.loads(content)
         self.myPositions = { p.get('contractDesc'):p for p in jc }
-        #pp(self.myPositions)
-        #myPositions = pos
-        #for p in pos:
-        #    print(f"DESC:{p.get('contractDesc')}\nPOS:{p.get('position')}\nMKP:{p.get('mktPrice')}")
+        print(f"##{name} : {self.myPositions}")
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
