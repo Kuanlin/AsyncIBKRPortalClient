@@ -154,7 +154,7 @@ class Bot(BotBase):
             quota = self.netliquidationvalue
             #self.gp["0"]=?
             grouped_quota = { x:quota*self.gp[x] for x in self.gp.keys() }
-            print(grouped_quota, end="", flush=True)
+            pp(grouped_quota)
         else:
            print("[waiting for initialized]", end="", flush=True)
 
