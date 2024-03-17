@@ -38,16 +38,12 @@ class Bot(BotBase):
         await restin.put([RESTRequests.securityStocksBySymbols(
             symbols = self.symbols
         )])
-        await asyncio.sleep(2)
-        await self.getInfoRequests()
         for i in jobs:
             i.remove()
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
 
 
     async def getInfoRequests(self):
-        while( len(self.conids) >0):
-            await asyncio.sleep(0)
         print("testconids")
         print(self.conids)
         await restin.put([
