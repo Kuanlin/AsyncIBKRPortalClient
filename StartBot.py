@@ -24,7 +24,7 @@ class Bot(BotBase):
         self.dividends = None
 
 
-        gp = [ x:group_proportion[x] for x in group_proportion]
+        gp = [ {x:group_proportion[x]} for x in group_proportion]
         pp(gp)
         #stkp = stk_param 
 
