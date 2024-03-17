@@ -18,6 +18,9 @@ class Bot(BotBase):
         self.myPositions = {}
         self.myLiveOrders = {}
 
+        self.positions = {}
+        self.liveOrders = {}
+
         self.cashbalance = None
         self.netliquidationvalue = None
         self.stockmarketvalue = None
@@ -98,7 +101,14 @@ class Bot(BotBase):
         self.myPositions = { p.get('contractDesc'):p for p in jc }
         print(f"##{name} : ", end="")
         if len(self.myPositions) < 30:
-            pp(self.myPositions)
+            #pp(self.myPositions)
+            self.positions = {
+                x:{
+                    "mktPrice":self.myPositions[x]["mktPrice"],
+                    "position":self.myPositions[x]["position"]
+                } for x in self.symbols
+            }
+            pp(self.positions)
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
@@ -106,7 +116,14 @@ class Bot(BotBase):
         newPositions = { p.get('contractDesc'):p for p in jc }
         self.myPositions = self.myPositions | newPositions
         if len(newPositions) < 30 and len(newPositions)>0:
-            pp(self.myPositions)
+            #pp(self.myPositions)
+            self.positions = {
+                x:{
+                    "mktPrice":self.myPositions[x]["mktPrice"],
+                    "position":self.myPositions[x]["position"]
+                } for x in self.symbols
+            }
+            pp(self.positions)
        
     @BotBase.restResponse
     def onPortfolioLedgerResp(self, name, content):
@@ -123,13 +140,6 @@ class Bot(BotBase):
         
     async def mainloop(self):
         await asyncio.sleep(0.5)
-
-        #calculate all
-        #if not self.balance:
-        #    pageId = 0
-        #tsm=self.myPositions.get('TSM')
-        #msft=self.myPositions.get('MSFT')
-        #self.balance = True
         print("[ml]", end="", flush=True)
 
 
