@@ -18,14 +18,19 @@ class Bot(BotBase):
         self.myPositions = {}
         self.myLiveOrders = {}
 
-        self.stock2conid = {}
-        self.conid2stock = {}
-
         self.cashbalance = None
         self.netliquidationvalue = None
         self.stockmarketvalue = None
         self.dividends = None
+
+
+        gp = [ x:group_proportion[x] for x in group_proportion]
+        pp(gp)
+        #stkp = stk_param 
+
+
         jobs = self.scheduler.get_jobs()
+        self.getInfoRequests()
         for i in jobs:
             i.remove()
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
@@ -33,10 +38,10 @@ class Bot(BotBase):
 
     async def getInfoRequests(self):
         await restin.put([
-            RESTRequests.positionsAll(),
-            RESTRequests.liveOrders(),
-            RESTRequests.portfolioLedger(),
-            RESTRequests.transactionHistory(conids = [6223250]),
+            RESTRequests.positionsAll(), #to get current positions
+            RESTRequests.liveOrders(), #to get liveOrders
+            RESTRequests.portfolioLedger(), #to get balance
+            RESTRequests.transactionHistory(conids = [6223250]), #to ensure the transaction the orders are filled
         ])
 
     @BotBase.restResponse
@@ -95,15 +100,14 @@ class Bot(BotBase):
         
     async def mainloop(self):
         await asyncio.sleep(0.5)
+
+        
         #calculate all
-
-        if not self.balance:
-            pageId = 0
-
-        tsm=self.myPositions.get('TSM')
-        msft=self.myPositions.get('MSFT')
-        self.balance = True
-
+        #if not self.balance:
+        #    pageId = 0
+        #tsm=self.myPositions.get('TSM')
+        #msft=self.myPositions.get('MSFT')
+        #self.balance = True
         print("[mainloop]")
 
 

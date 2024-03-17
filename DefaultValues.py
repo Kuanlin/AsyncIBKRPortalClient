@@ -5,7 +5,6 @@ _configjs = json.load(jf)
 group_proportion = _configjs["group_proportion"]
 stk_param = _configjs["stk_param"]
 
-
 IBKRClientPortalURI = "https://localhost:5000"
 #IBKRClientPortalURI = "https://httpbin.org"
 DEFAULT_TIMEOUT = 10
