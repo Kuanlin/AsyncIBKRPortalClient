@@ -110,7 +110,8 @@ class Bot(BotBase):
             self.positions = {
                 x:{
                     "mktPrice":self.myPositions[x]["mktPrice"],
-                    "position":self.myPositions[x]["position"]
+                    "position":self.myPositions[x]["position"],
+                    "mktValue":self.myPositions[x]["mktValue"]
                 } for x in self.symbols
             }
             pp(self.positions)
@@ -152,14 +153,18 @@ class Bot(BotBase):
             if all(self.initialized.values()):
                 print("[running]", end="", flush=True)
                 quota = self.netliquidationvalue
+
                 grouped_quota = {
                     x: self.gp[x]*quota for x in self.gp.keys()
                 }
+
                 stock_quota = {
                     x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
                     for x in self.stkp.keys()
                 }
                 print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
+
+
 
             else:
                 print("[waiting for initialized]", end="", flush=True)
