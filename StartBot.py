@@ -148,19 +148,23 @@ class Bot(BotBase):
 
     async def mainloop(self):
         await asyncio.sleep(1)
-        if all(self.initialized.values()):
-            print("[running]", end="", flush=True)
-            quota = self.netliquidationvalue
-            grouped_quota = {
-                x: self.gp[x]*quota for x in self.gp.keys()
-            }
-            stock_quota = {
-                x:self.stkp[x]|{"quota":self.stkp[x]["in_group_proportion"]*grouped_quota[x]} for x in self.stkp.keys()
-            }
-            print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
+        try:
+            if all(self.initialized.values()):
+                print("[running]", end="", flush=True)
+                quota = self.netliquidationvalue
+                grouped_quota = {
+                    x: self.gp[x]*quota for x in self.gp.keys()
+                }
+                stock_quota = {
+                    x: self.stkp[x]|{"quota":self.stkp[x]["in_group_proportion"]*grouped_quota[x]} 
+                    for x in self.stkp.keys()
+                }
+                print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
 
-        else:
-           print("[waiting for initialized]", end="", flush=True)
+            else:
+                print("[waiting for initialized]", end="", flush=True)
+        except Exception as e:
+            print(e)
 
 
 async def IBKRMain():
