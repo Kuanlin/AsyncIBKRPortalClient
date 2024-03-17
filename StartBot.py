@@ -150,11 +150,14 @@ class Bot(BotBase):
         await asyncio.sleep(0.5)
         if all(self.initialized.values()):
             print("[running]", end="", flush=True)
-            quota = self.netliquidationvalue
-            grouped_quota = {
-                x: self.gp[x]*quota for x in self.gp.keys()
-            }
-            print(f"#QUOTA::{quota}")
+            try:
+                quota = self.netliquidationvalue
+                grouped_quota = {
+                    x: self.gp[x]*quota for x in self.gp.keys()
+                }
+                print(f"#QUOTA::{quota}")
+            except Exception as e:
+                print(e)
         else:
            print("[waiting for initialized]", end="", flush=True)
 
