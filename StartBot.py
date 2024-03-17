@@ -53,7 +53,6 @@ class Bot(BotBase):
 
 
     async def getInfoRequests(self):
-        print("testconids")
         print(self.conids)
         await restin.put([
             RESTRequests.portfolioLedger(), #to get balance
@@ -152,9 +151,7 @@ class Bot(BotBase):
         if all(self.initialized.values()):
             print("[running]", end="", flush=True)
             quota = self.netliquidationvalue
-            #self.gp["0"]=?
-            grouped_quota = { x:quota*self.gp[x] for x in self.gp.keys() }
-            pp(grouped_quota)
+            print(f"#QUOTA::{quota}")
         else:
            print("[waiting for initialized]", end="", flush=True)
 
