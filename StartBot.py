@@ -131,7 +131,7 @@ class Bot(BotBase):
         #tsm=self.myPositions.get('TSM')
         #msft=self.myPositions.get('MSFT')
         #self.balance = True
-        print("[mainloop]")
+        print("[ml]", end="")
 
 
 
