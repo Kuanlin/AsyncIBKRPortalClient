@@ -26,11 +26,12 @@ class Bot(BotBase):
 
         gp = [ {x:group_proportion[x]} for x in group_proportion]
         pp(gp)
-        #stkp = stk_param 
+        stkp = stk_param 
+        pp(stkp)
 
 
         jobs = self.scheduler.get_jobs()
-        self.getInfoRequests()
+        await self.getInfoRequests()
         for i in jobs:
             i.remove()
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
