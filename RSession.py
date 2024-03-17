@@ -457,7 +457,7 @@ class RESTRequests:
             "method": r"POST",
             "url": f"/v1/api/pa/transactions",
             "params": "",
-            "data": f"json={json_content}",
+            "data": json_content,
             "timeout": timeout
         }
 
