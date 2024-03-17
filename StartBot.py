@@ -82,13 +82,15 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
         jc = json.loads(content)
-        self.myPositions = { p.get('contractDesc'):p for p in jc }
-        print(f"##{name} : ", end="")
-        pp(self.myPositions)
+        print(f"##{name} : {jc}")
+        #self.myPositions = { p.get('contractDesc'):p for p in jc }
+        #print(f"##{name} : ", end="")
+        #pp(self.myPositions)
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
-        print(f"##{name} : {content}")
+        jc = json.loads(content)
+        print(f"##{name} : {jc}")
         #print()
         pass
 
