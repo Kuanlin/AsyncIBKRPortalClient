@@ -29,8 +29,10 @@ class Bot(BotBase):
         self.stkp = stk_param 
         pp(self.stkp)
         self.symbols = list( self.stkp.keys() )
-        self.symbol2conid = {}
 
+        self.symbol2conid = {}
+        self.conid2symbol = {}
+        self.conids = []
 
         jobs = self.scheduler.get_jobs()
         await self.getInfoRequests()
@@ -48,19 +50,22 @@ class Bot(BotBase):
             RESTRequests.positionsAll(), #to get current positions
             RESTRequests.liveOrders(), #to get liveOrders
             RESTRequests.portfolioLedger(), #to get balance
-            RESTRequests.transactionHistory(conids = [6223250]), #to ensure the transaction the orders are filled
+            RESTRequests.transactionHistory(conids = self.conids), #to ensure the transaction the orders are filled
         ])
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
         jc = json.loads(content)
-        print(f"##{name} : ")
-        pp(jc)
         self.symbol2conid = {
             x:jc[x][0]['contracts'][0]['conid'] for x in self.symbols
         }
-        print(f"##symbol2conid : ")
+        self.conid2symbol = {
+            value:key for key, value in self.symbol2conid.items()
+        }
+        self.conids = list(self.symbol2conid.values())
+        print(f"##symbol2conid : ", end="")
         pp(self.symbol2conid)
+
 
     @BotBase.restResponse
     def onPlaceOrdersResp(self, name, content):
