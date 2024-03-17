@@ -123,8 +123,7 @@ class Bot(BotBase):
         
     async def mainloop(self):
         await asyncio.sleep(0.5)
-
-        
+               
         #calculate all
         #if not self.balance:
         #    pageId = 0
@@ -132,7 +131,6 @@ class Bot(BotBase):
         #msft=self.myPositions.get('MSFT')
         #self.balance = True
         print("[ml]", end="")
-
 
 
 async def IBKRMain():
