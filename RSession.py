@@ -448,14 +448,14 @@ class RESTRequests:
 
         json_content = json.dumps({ 
             "acctIds" : accountIds, 
-            "conids" : [ str(conid) ], 
+            "conids" : [ conid ], 
             "currency" : currency,
             "days" : days} )
 
         return {
             "method": r"POST",
             "url": f"/v1/api/pa/transactions",
-            "params": "",
+            "params": json_content,
             "data": json_content,
             "timeout": timeout
         }
