@@ -7,7 +7,6 @@ from pprint import pprint as pp
 from DefaultValues import *
 
 
-
 class Bot(BotBase):
 
     async def restInit(self):
@@ -18,12 +17,16 @@ class Bot(BotBase):
         self.test = False
         self.myPositions = {}
         self.myLiveOrders = {}
+        self.cashbalance = None
+        self.netliquidationvalue = None
+        self.stockmarketvalue = None
+        self.dividends = None
         #await restin.put ([
         #    RESTRequests.transactionHistory(
         #        accountIds = ["ABC", "DEF"], conids = [123, 456] ) ])
         await restin.put([
-            RESTRequests.portfolioSummary(),
-            RESTRequests.portfolioLedger()
+            RESTRequests.portfolioLedger(),
+            RESTRequests.transactionHistory(conids = [6223250])
         ])
         '''
         await restin.put ([
@@ -65,7 +68,7 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onTransactionHistoryResp(self, name, content):
-        print("---onTransactionHistoryResp")
+        print(f"##{name} : {content}")
 
     @BotBase.restResponse
     def onLiveOrdersResp(self, name, content):
@@ -99,16 +102,22 @@ class Bot(BotBase):
         jc = json.loads(content)
         #pp([ (c, jc.get(c)[0].get("contracts")[0].get("conid")) for c in jc.keys() ])
         #print()
-
-    @BotBase.restResponse
-    def onPortfolioSummaryResp(self, name, content):
-        print(f"##{name} : ", end="")
-        pp(json.loads(content))
-        
+       
     @BotBase.restResponse
     def onPortfolioLedgerResp(self, name, content):
-        print(f"##{name} : ", end="")
-        pp(json.loads(content))
+        c = content["DEFAULT_CURRENCY"]
+        self.cashbalance = c.get("cashbalance")
+        self.stockmarketvalue = c.get("stockmarketvalue")
+        self.dividends = c.get("dividends")
+        self.netliquidationvalue = c.get("netliquidationvalue")
+
+        print(f"#{name}")
+        print(f"cash = {self.cashbalance}")
+        print(f"stockmarketvalue = {self.stockmarketvalue}")
+        print(f"total = {self.netliquidationvalue}")
+
+        
+        
         
 
     async def mainloop(self):

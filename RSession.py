@@ -433,9 +433,9 @@ class RESTRequests:
         raise NotImplementedError
 
     async def transactionHistory(
-        accountIds: list = None, 
         conids: list = None, 
         days: int = 1,
+        accountIds: list = [ DEFAULT_ACCOUNTID ], 
         currency: str = DEFAULT_CURRENCY,  
         timeout: int = DEFAULT_TIMEOUT ) -> dict:
 
