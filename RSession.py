@@ -448,7 +448,7 @@ class RESTRequests:
 
         json_content = json.dumps({ 
             "acctIds" : accountIds, 
-            "conids" : [conid], 
+            "conids" : [ str(conid) ], 
             "currency" : currency,
             "days" : days} )
 

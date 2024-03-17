@@ -51,7 +51,7 @@ class Bot(BotBase):
             RESTRequests.liveOrders(), #to get liveOrders
             RESTRequests.portfolioLedger(), #to get balance
         ])
-        histRequest = [RESTRequests.transactionHistory(conid = x) for x in [self.conids[0]]]
+        histRequest = [RESTRequests.transactionHistory(conid = x) for x in self.conids]
         await restin.put( histRequest )
 
     @BotBase.restResponse
