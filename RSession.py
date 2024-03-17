@@ -147,7 +147,7 @@ class RESTRequests:
             "url": f"/v1/api/iserver/account/{accountId}/orders",
             "params": "",
             "data": orderListStr,
-            "respchain": RESTRequests.respondChain_OrdersApprov,
+            "respchain": RESTRequests.respondChain_OrdersApprov if DEFAULT_ORDER_CONFIRM else None,
             "respchain_kwarg": { "accountId": accountId },
             "timeout": timeout
         }
@@ -191,7 +191,7 @@ class RESTRequests:
             "url": f"/v1/api/iserver/account/{accountId}/order/{orderId}",
             "params": "",
             "data": dataStr,
-            "respchain": RESTRequests.respondChain_ModifyOrdersApprov,
+            "respchain": RESTRequests.respondChain_ModifyOrdersApprov if DEFAULT_ORDER_CONFIRM else None,
             "respchain_kwarg": { "accountId": accountId },
             "timeout": timeout
         }

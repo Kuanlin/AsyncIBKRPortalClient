@@ -1,17 +1,28 @@
 from RSession import *
 from WSession import *
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 class BotBase():
     def __init__(self, rest:RESTRequestSession , ws:WSSession):
         self.init = asyncio.Event()
         self.rest = rest
+        self.scheduler = AsyncIOScheduler(({'event_loop': asyncio.get_event_loop()}))
+        self.scheduler.start()
         self.restReInit()
+
+        
 
     def restReInit(self):
         self.init.clear()
         self.rest.aquireRequestList = self.restRequestList
         self.rest.onResponse = self.restOnResponse
         self.rest.onClientInit = self.restInit
+            
+
+    def remove_jobs(self):
+        jobs = self.scheduler.get_jobs()
+        for i in jobs:
+            i.remove()
 
     async def restInit(self):
         pass

@@ -1,13 +1,17 @@
 import json
 jf = open("config.json","r")
-acctId = "U"+json.load(jf)["id"]
+_configjs = json.load(jf)
 
-MAX_CHAIN_LENGTH = 200
+group_proportion = _configjs["group_proportion"]
+stk_param = _configjs["stk_param"]
+
+
 IBKRClientPortalURI = "https://localhost:5000"
 #IBKRClientPortalURI = "https://httpbin.org"
 DEFAULT_TIMEOUT = 10
-DEFAULT_ACCOUNTID = acctId
-DEFAULT_CURRENCY = "USD"
+DEFAULT_ACCOUNTID = "U"+_configjs["acctid"]
+DEFAULT_CURRENCY = _configjs["currency"]
 DEFAULT_PRICE_DECIMALS = 3
 DEFAULT_QUANTITY_DECIMALS = 3
 DEFAULT_ORDER_CONFIRM = True
+MAX_CHAIN_LENGTH = 200
