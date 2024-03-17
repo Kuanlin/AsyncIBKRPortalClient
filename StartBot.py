@@ -114,7 +114,7 @@ class Bot(BotBase):
                     "mktValue":self.myPositions[x]["mktValue"]
                 } for x in self.symbols
             }
-            pp(self.positions)
+            #pp(self.positions)
             self.initialized[name] = True
 
     @BotBase.restResponse
@@ -163,7 +163,7 @@ class Bot(BotBase):
                     for x in self.stkp.keys()
                 }
                 print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
-
+                pp(self.positions)
 
 
             else:
