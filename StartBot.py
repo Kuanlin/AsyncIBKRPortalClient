@@ -55,7 +55,7 @@ class Bot(BotBase):
                 orderId = "1533554647", 
                 conid=6223250, 
                 price = 146, 
-                ordertype = OrderType.LIMIT,
+                orderType = OrderType.LIMIT,
                 quantity = 1, 
                 side=OrderSide.SELL, 
                 tif = OrderTIF.DAY)
