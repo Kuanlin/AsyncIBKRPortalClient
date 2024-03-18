@@ -61,28 +61,6 @@ class Bot(BotBase):
         ])
         histRequest = [RESTRequests.transactionHistory(conid = x, days=7) for x in self.conids]
         await restin.put( histRequest )
-        await restin.put ([
-            RESTRequests.placeOrders( 
-                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-                accountId = str(acctId)
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-                accountId = str(acctId)
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-                accountId = str(acctId)
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-                accountId = str(acctId)
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-                accountId = str(acctId)
-            ),
-        ])
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
