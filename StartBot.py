@@ -49,6 +49,23 @@ class Bot(BotBase):
         )])
         for i in jobs:
             i.remove()
+        await restin.put ([
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=141, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=143, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=145, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=147, quantity=1, tif=OrderTIF.DAY)],
+            ),
+        ])    
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
 
 
@@ -61,23 +78,7 @@ class Bot(BotBase):
         ])
         histRequest = [RESTRequests.transactionHistory(conid = x, days=7) for x in self.conids]
         await restin.put( histRequest )
-        await restin.put ([
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=141, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=142, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=143, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=144, quantity=1, tif=OrderTIF.DAY)],
-            ),
-        ])
+
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
@@ -206,28 +207,23 @@ if __name__ == '__main__':
 
 
 '''
-await restin.put ([
-    RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-        accountId = str(acctId)
-    ),
-    RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-        accountId = str(acctId)
-    ),
-    RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-        accountId = str(acctId)
-    ),
-    RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-        accountId = str(acctId)
-    ),
-    RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-        accountId = str(acctId)
-    ),
-])'''
+        await restin.put ([
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=141, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=142, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=143, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=144, quantity=1, tif=OrderTIF.DAY)],
+            ),
+        ])'''
 
 #await restin.put([
 #    RESTRequests.modifyOrder(orderId = "2096356379", accountId=acctId, conid=6223250, price = 119, quantity = 1)
