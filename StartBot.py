@@ -61,6 +61,28 @@ class Bot(BotBase):
         ])
         histRequest = [RESTRequests.transactionHistory(conid = x, days=7) for x in self.conids]
         await restin.put( histRequest )
+        await restin.put ([
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+                accountId = str(acctId)
+            ),
+        ])
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
@@ -141,10 +163,10 @@ class Bot(BotBase):
         self.stockmarketvalue = c.get("stockmarketvalue")
         self.dividends = c.get("dividends")
         self.netliquidationvalue = c.get("netliquidationvalue")
-        print(f"#{name}")
-        print(f"cash = {self.cashbalance}")
-        print(f"stockmarketvalue = {self.stockmarketvalue}")
-        print(f"total = {self.netliquidationvalue}")
+        print(f"#{name}:", end="")
+        print(f"cash = {self.cashbalance}:", end="")
+        print(f"stockmarketvalue = {self.stockmarketvalue}:", end="")
+        print(f"total = {self.netliquidationvalue}:", end="", flush=True)
         self.initialized[name] = True
 
     async def mainloop(self):
@@ -153,15 +175,11 @@ class Bot(BotBase):
             if all(self.initialized.values()):
                 print("[running]", end="", flush=True)
                 quota = self.netliquidationvalue
-
-                grouped_quota = {
-                    x: self.gp[x]*quota for x in self.gp.keys()
-                }
-
+                grouped_quota = { x: self.gp[x]*quota for x in self.gp.keys() }
                 stock_quota = {
                     x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
-                    for x in self.stkp.keys()
-                }
+                    for x in self.stkp.keys() }
+                
                 print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
                 pp(self.positions)
 
@@ -195,23 +213,23 @@ if __name__ == '__main__':
 '''
 await restin.put ([
     RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=120, quantity=1, tif=OrderTIF.DAY)],
+        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
         accountId = str(acctId)
     ),
     RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=120, quantity=1, tif=OrderTIF.DAY)],
+        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
         accountId = str(acctId)
     ),
     RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=120, quantity=1, tif=OrderTIF.DAY)],
+        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
         accountId = str(acctId)
     ),
     RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=120, quantity=1, tif=OrderTIF.DAY)],
+        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
         accountId = str(acctId)
     ),
     RESTRequests.placeOrders( 
-        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.BUY, orderType=OrderType.LIMIT, price=120, quantity=1, tif=OrderTIF.DAY)],
+        orders = [ Order(acctId = acctId,conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
         accountId = str(acctId)
     ),
 ])'''
