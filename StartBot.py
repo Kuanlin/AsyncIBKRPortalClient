@@ -152,6 +152,15 @@ class Bot(BotBase):
         print(f"total = {self.netliquidationvalue}:", end="", flush=True)
         self.initialized[name] = True
 
+    @BotBase.restResponse
+    def onModifyOrderResp(self, name, content ):
+        print(f"##{name} : {content}")
+        
+    @BotBase.restResponse
+    def onRespondChain_ModifyOrdersApprovResp(self, name, content ):
+        print(f"##{name} : {content}")
+
+
     async def mainloop(self):
         await asyncio.sleep(1)
         try:
