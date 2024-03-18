@@ -49,23 +49,10 @@ class Bot(BotBase):
         )])
         for i in jobs:
             i.remove()
-        await restin.put ([
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=141, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=143, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=145, quantity=1, tif=OrderTIF.DAY)],
-            ),
-            RESTRequests.placeOrders( 
-                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=147, quantity=1, tif=OrderTIF.DAY)],
-            ),
-        ])    
+
+        await restin.put([
+            RESTRequests.modifyOrder(orderId = "1533554647", conid=6223250, price = 146, quantity = 1)
+        ])   
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
 
 
