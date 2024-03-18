@@ -61,6 +61,23 @@ class Bot(BotBase):
         ])
         histRequest = [RESTRequests.transactionHistory(conid = x, days=7) for x in self.conids]
         await restin.put( histRequest )
+        await restin.put ([
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=140, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=141, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=142, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=143, quantity=1, tif=OrderTIF.DAY)],
+            ),
+            RESTRequests.placeOrders( 
+                orders = [ Order(conid=6223250, side=OrderSide.SELL, orderType=OrderType.LIMIT, price=144, quantity=1, tif=OrderTIF.DAY)],
+            ),
+        ])
 
     @BotBase.restResponse
     def onSecurityStocksBySymbolsResp(self, name, content):
