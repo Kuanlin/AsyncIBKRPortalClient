@@ -153,7 +153,7 @@ class RESTRequests:
         }
 
 
-    async def modifyOrderRaw(timeout: int = DEFAULT_TIMEOUT):
+    async def   yOrderRaw(timeout: int = DEFAULT_TIMEOUT):
         pass
 
     async def modifyOrder(
@@ -182,7 +182,7 @@ class RESTRequests:
         if side:
             dataDict["side"] = side
         if tif:
-            dataDict["tid"] = tif
+            dataDict["tif"] = tif
 
         dataStr = json.dumps(dataDict)
 
