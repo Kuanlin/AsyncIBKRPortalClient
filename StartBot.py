@@ -51,7 +51,14 @@ class Bot(BotBase):
             i.remove()
 
         await restin.put([
-            RESTRequests.modifyOrder(orderId = "1533554647", conid=6223250, price = 146, quantity = 1)
+            RESTRequests.modifyOrder(
+                orderId = "1533554647", 
+                conid=6223250, 
+                price = 146, 
+                ordertype = OrderType.LIMIT,
+                quantity = 1, 
+                side=OrderSide.SELL, 
+                tif = OrderTIF.DAY)
         ])   
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
 
@@ -155,7 +162,7 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onModifyOrderResp(self, name, content ):
         print(f"##{name} : {content}")
-        
+
     @BotBase.restResponse
     def onRespondChain_ModifyOrdersApprovResp(self, name, content ):
         print(f"##{name} : {content}")
