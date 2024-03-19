@@ -159,8 +159,8 @@ class Bot(BotBase):
                 print(f"stockmarketvalue = {self.stockmarketvalue} | ", end="")
                 print(f"total = {self.netliquidationvalue} | ", end="", flush=True)
                 #quota = self.netliquidationvalue
-                value = { x:stk_param[x]["values"] for x in stk_param.keys()}
-                leverage = { x:stk_param[x]["leverages"] for x in stk_param.keys()}
+                value = { x:stk_param[x]["value"] for x in stk_param.keys()}
+                leverage = { x:stk_param[x]["leverage"] for x in stk_param.keys()}
                 lmp = { x:stk_param[x]["LMP"] for x in stk_param.keys()}
                 pp(value)
                 pp(leverage)
