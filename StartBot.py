@@ -74,12 +74,12 @@ class Bot(BotBase):
             value:key for key, value in self.symbol2conid.items()
         }
         self.conids = list(self.symbol2conid.values())
-        print(f"##symbol2conid : ", end="")
-        pp(self.symbol2conid)
-        print(f"##conid2symbol : ", end="")
-        pp(self.conid2symbol)
-        print(f"##conids : ", end="")
-        pp(self.conids)
+        #print(f"##symbol2conid : ", end="")
+        #pp(self.symbol2conid)
+        #print(f"##conid2symbol : ", end="")
+        #pp(self.conid2symbol)
+        #print(f"##conids : ", end="")
+        #pp(self.conids)
 
 
     @BotBase.restResponse
@@ -95,12 +95,13 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onTransactionHistoryResp(self, name, content):
         print(f"##{name} : {content}")
+        pass
 
     @BotBase.restResponse
     def onLiveOrdersResp(self, name, content):
         jc = json.loads(content)
         self.myLiveOrders = jc.get('orders')
-        print(f"##{name} : {self.myLiveOrders}")
+        #print(f"##{name} : {self.myLiveOrders}")
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
@@ -124,14 +125,12 @@ class Bot(BotBase):
         newPositions = { p.get('contractDesc'):p for p in jc }
         self.myPositions = self.myPositions | newPositions
         if len(newPositions) < 30 and len(newPositions)>0:
-            #pp(self.myPositions)
             self.positions = {
                 x:{
                     "mktPrice":self.myPositions[x]["mktPrice"],
                     "position":self.myPositions[x]["position"]
                 } for x in self.symbols
             }
-            #pp(self.positions)
             self.initialized[name] = True
        
     @BotBase.restResponse
@@ -142,10 +141,6 @@ class Bot(BotBase):
         self.stockmarketvalue = c.get("stockmarketvalue")
         self.dividends = c.get("dividends")
         self.netliquidationvalue = c.get("netliquidationvalue")
-        #print(f"#{name}:", end="")
-        #print(f"cash = {self.cashbalance}:", end="")
-        #print(f"stockmarketvalue = {self.stockmarketvalue}:", end="")
-        #print(f"total = {self.netliquidationvalue}:", end="", flush=True)
         self.initialized[name] = True
 
     @BotBase.restResponse
@@ -171,8 +166,6 @@ class Bot(BotBase):
                     for x in self.stkp.keys() }
                 print(f">> QUOTA::{quota} => {grouped_quota} => {stock_quota}")
                 pp(self.positions)
-
-
 
             else:
                 print("[waiting for initialized]", end="", flush=True)
