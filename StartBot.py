@@ -31,8 +31,8 @@ class Bot(BotBase):
         self.dividends = None
 
 
-        self.config =  {x:group_proportion[x] for x in group_proportion}
-        pp(self.config)
+        #self.config =  {x:group_proportion[x] for x in group_proportion}
+        #pp(self.config)
         self.stkp = stk_param 
         pp(self.stkp)
         self.symbols = list( self.stkp.keys() )
@@ -159,11 +159,11 @@ class Bot(BotBase):
                 print(f"stockmarketvalue = {self.stockmarketvalue} | ", end="")
                 print(f"total = {self.netliquidationvalue} | ", end="", flush=True)
                 quota = self.netliquidationvalue
-                grouped_quota = { x: self.config[x]*quota for x in self.config.keys() }
-                stock_quota = {
-                    x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
-                    for x in self.stkp.keys() }
-                print(f">> QUOTA::{quota} => {grouped_quota} => {stock_quota}")
+                #grouped_quota = { x: self.config[x]*quota for x in self.config.keys() }
+                #stock_quota = {
+                #    x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
+                #    for x in self.stkp.keys() }
+                #print(f">> QUOTA::{quota} => {grouped_quota} => {stock_quota}")
                 pp(self.positions)
 
             else:
