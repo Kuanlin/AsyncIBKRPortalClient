@@ -31,8 +31,8 @@ class Bot(BotBase):
         self.dividends = None
 
 
-        self.gp =  {x:group_proportion[x] for x in group_proportion}
-        pp(self.gp)
+        self.config =  {x:group_proportion[x] for x in group_proportion}
+        pp(self.config)
         self.stkp = stk_param 
         pp(self.stkp)
         self.symbols = list( self.stkp.keys() )
@@ -161,16 +161,14 @@ class Bot(BotBase):
         await asyncio.sleep(1)
         try:
             if all(self.initialized.values()):
-                print(f">> cash = {self.cashbalance}:", end="")
-                print(f">> stockmarketvalue = {self.stockmarketvalue}:", end="")
-                print(f">> total = {self.netliquidationvalue}:", end="", flush=True)
-                #print("[running]", end="", flush=True)
+                print(f"cash = {self.cashbalance} | ", end="")
+                print(f"stockmarketvalue = {self.stockmarketvalue} | ", end="")
+                print(f"total = {self.netliquidationvalue} | ", end="", flush=True)
                 quota = self.netliquidationvalue
-                grouped_quota = { x: self.gp[x]*quota for x in self.gp.keys() }
+                grouped_quota = { x: self.config[x]*quota for x in self.config.keys() }
                 stock_quota = {
                     x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
                     for x in self.stkp.keys() }
-                
                 print(f">> QUOTA::{quota} => {grouped_quota} => {stock_quota}")
                 pp(self.positions)
 
