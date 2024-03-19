@@ -95,7 +95,6 @@ class Bot(BotBase):
     @BotBase.restResponse
     def onTransactionHistoryResp(self, name, content):
         print(f"##{name} : {content}")
-        pass
 
     @BotBase.restResponse
     def onLiveOrdersResp(self, name, content):
