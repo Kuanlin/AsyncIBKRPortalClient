@@ -37,7 +37,7 @@ class Bot(BotBase):
         pp(self.stkp)
         self.symbols = list( self.stkp.keys() )
 
-        self.grouped_quota = {}
+        #self.grouped_quota = {}
 
         self.symbol2conid = {}
         self.conid2symbol = {}
@@ -158,7 +158,13 @@ class Bot(BotBase):
                 print(f"cash = {self.cashbalance} | ", end="")
                 print(f"stockmarketvalue = {self.stockmarketvalue} | ", end="")
                 print(f"total = {self.netliquidationvalue} | ", end="", flush=True)
-                quota = self.netliquidationvalue
+                #quota = self.netliquidationvalue
+                value = { x:stk_param[x]["values"] for x in stk_param.keys()}
+                leverage = { x:stk_param[x]["leverages"] for x in stk_param.keys()}
+                lmp = { x:stk_param[x]["LMP"] for x in stk_param.keys()}
+                pp(value)
+                pp(leverage)
+                pp(lmp)
                 #grouped_quota = { x: self.config[x]*quota for x in self.config.keys() }
                 #stock_quota = {
                 #    x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
