@@ -104,12 +104,10 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
-        print(f"##{name} : {content}")
+        #print(f"##{name} : {content}")
         jc = json.loads(content)
         self.myPositions = { p.get('contractDesc'):p for p in jc }
-        print(f"##{name} : ", end="")
         if len(self.myPositions) < 30:
-            #pp(self.myPositions)
             self.positions = {
                 x:{
                     "mktPrice":self.myPositions[x]["mktPrice"],
@@ -117,12 +115,11 @@ class Bot(BotBase):
                     "mktValue":self.myPositions[x]["mktValue"]
                 } for x in self.symbols
             }
-            #pp(self.positions)
             self.initialized[name] = True
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
-        print(f"##{name} : {content}")
+        #print(f"##{name} : {content}")
         jc = json.loads(content)
         newPositions = { p.get('contractDesc'):p for p in jc }
         self.myPositions = self.myPositions | newPositions
@@ -145,10 +142,10 @@ class Bot(BotBase):
         self.stockmarketvalue = c.get("stockmarketvalue")
         self.dividends = c.get("dividends")
         self.netliquidationvalue = c.get("netliquidationvalue")
-        print(f"#{name}:", end="")
-        print(f"cash = {self.cashbalance}:", end="")
-        print(f"stockmarketvalue = {self.stockmarketvalue}:", end="")
-        print(f"total = {self.netliquidationvalue}:", end="", flush=True)
+        #print(f"#{name}:", end="")
+        #print(f"cash = {self.cashbalance}:", end="")
+        #print(f"stockmarketvalue = {self.stockmarketvalue}:", end="")
+        #print(f"total = {self.netliquidationvalue}:", end="", flush=True)
         self.initialized[name] = True
 
     @BotBase.restResponse
@@ -164,14 +161,17 @@ class Bot(BotBase):
         await asyncio.sleep(1)
         try:
             if all(self.initialized.values()):
-                print("[running]", end="", flush=True)
+                print(f">> cash = {self.cashbalance}:", end="")
+                print(f">> stockmarketvalue = {self.stockmarketvalue}:", end="")
+                print(f">> total = {self.netliquidationvalue}:", end="", flush=True)
+                #print("[running]", end="", flush=True)
                 quota = self.netliquidationvalue
                 grouped_quota = { x: self.gp[x]*quota for x in self.gp.keys() }
                 stock_quota = {
                     x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
                     for x in self.stkp.keys() }
                 
-                print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
+                print(f">> QUOTA::{quota} => {grouped_quota} => {stock_quota}")
                 pp(self.positions)
 
 
