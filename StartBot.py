@@ -50,16 +50,6 @@ class Bot(BotBase):
         for i in jobs:
             i.remove()
 
-        await restin.put([
-            RESTRequests.modifyOrder(
-                orderId = "1533554647", 
-                conid=6223250, 
-                price = 146, 
-                orderType = OrderType.LIMIT,
-                quantity = 1, 
-                side=OrderSide.SELL, 
-                tif = OrderTIF.DAY)
-        ])   
         self.scheduler.add_job(self.getInfoRequests, 'interval', seconds=5)
 
 
@@ -181,7 +171,7 @@ class Bot(BotBase):
                 
                 print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
                 pp(self.positions)
-                
+
 
 
             else:
@@ -232,3 +222,14 @@ if __name__ == '__main__':
 #await restin.put([
 #    RESTRequests.modifyOrder(orderId = "2096356379", accountId=acctId, conid=6223250, price = 119, quantity = 1)
 #])
+
+#await restin.put([
+#    RESTRequests.modifyOrder(
+#        orderId = "1533554647", 
+#        conid=6223250, 
+#        price = 146, 
+#        orderType = OrderType.LIMIT,
+#        quantity = 1, 
+#        side=OrderSide.SELL, 
+#        tif = OrderTIF.DAY)
+#])  
