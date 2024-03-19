@@ -181,6 +181,7 @@ class Bot(BotBase):
                 
                 print(f"#QUOTA::{quota} => {grouped_quota} => {stock_quota}")
                 pp(self.positions)
+                
 
 
             else:
