@@ -104,6 +104,7 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onPositionsAllResp(self, name, content):
+        print(f"##{name} : {content}")
         jc = json.loads(content)
         self.myPositions = { p.get('contractDesc'):p for p in jc }
         print(f"##{name} : ", end="")
@@ -121,6 +122,7 @@ class Bot(BotBase):
 
     @BotBase.restResponse
     def onRespondChain_PositionNextPageResp(self, name, content):
+        print(f"##{name} : {content}")
         jc = json.loads(content)
         newPositions = { p.get('contractDesc'):p for p in jc }
         self.myPositions = self.myPositions | newPositions
@@ -132,7 +134,7 @@ class Bot(BotBase):
                     "position":self.myPositions[x]["position"]
                 } for x in self.symbols
             }
-            pp(self.positions)
+            #pp(self.positions)
             self.initialized[name] = True
        
     @BotBase.restResponse
