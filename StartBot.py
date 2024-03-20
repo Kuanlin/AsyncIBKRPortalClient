@@ -165,6 +165,8 @@ class Bot(BotBase):
                 pp(value)
                 pp(leverage)
                 pp(lmp)
+                
+                
                 #grouped_quota = { x: self.config[x]*quota for x in self.config.keys() }
                 #stock_quota = {
                 #    x: self.stkp[x]["in_group_proportion"]*grouped_quota[self.stkp[x]["group"]]
