@@ -58,9 +58,7 @@ class BotDB:
         try:
             async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
             asession = async_session()
-            stmt = text( "CREATE VIEW IF NOT EXISTS stockpnlview AS "\
-            f"SELECT Stock.id, Stock.conid, Stock.name, Stock.exchange, PnL.realizedpnl, PnL.timestamp "\
-            f"FROM Stock JOIN PnL ON Stock.id = PnL.stkid;" )
+            stmt = text( "CREATE VIEW IF NOT EXISTS stockpnlview AS SELECT Stock.id, Stock.name, PnL.realizedpnl, Max(PnL.timestamp) AS timestamp FROM Stock JOIN PnL ON Stock.id = PnL.stkid GROUP BY PnL.stkid;" )
             await asession.execute(stmt)
             await asession.commit()
         finally:
@@ -140,11 +138,9 @@ class BotDB:
         asession = async_session()
         result = 0
         try:
-            stock = [ i for i in await self.allStocks() ]
-            print(f"stockids={stock}")
-            q = text( \
-                f"SELECT Stock.id, Stock.conid, Stock.name, Stock.exchange, t2.realizedpnl, t2.timestamp "\
-                f"FROM Stock LEFT JOIN (SELECT stkid, realizedpnl MAX(timestamp) FROM Pnl WHERE 1=1) AS t2 ON Stock.id = t2.stkid;" )
+            q = text(
+                "SELECT * FROM stockpnlview;"
+            )
             result = (await asession.execute(q)).all()
             print(result)
         finally:
