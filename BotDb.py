@@ -7,6 +7,7 @@ from sqlalchemy.schema import UniqueConstraint
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, declarative_base#, relationship
 
+DB_LOG_ECHO = False
 
 BotDBBase = declarative_base()
 class Stock(BotDBBase):
@@ -27,7 +28,7 @@ class Config(BotDBBase):
     stkid = Column(LargeBinary, ForeignKey("Stock.id"))
     initvalue = Column(Numeric)
     leverage = Column(Numeric)
-    singlesidespreadquantity = Column(Integer)
+    numofsinglespread = Column(Integer)
     spreadsteppriceratio = Column(Numeric)
     spreadsteppriceminimal = Column(Numeric)
     timestamp = Column(Integer)
@@ -43,7 +44,7 @@ class PnL(BotDBBase):
 class BotDB:
     def __init__(self):
         self.engine = create_async_engine(
-            "sqlite+aiosqlite:///file:bot.db?uri=True", echo=True )
+            "sqlite+aiosqlite:///file:bot.db?uri=True", echo=DB_LOG_ECHO )
         self.lock = asyncio.Lock()
 
     async def async_init(self):
@@ -52,13 +53,34 @@ class BotDB:
             await conn.run_sync(meta.create_all)
 
         await self.create_pnl_view()
+        await self.create_config_view()
 
     async def create_pnl_view(self):
         await self.lock.acquire()
         try:
             async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
             asession = async_session()
-            stmt = text( "CREATE VIEW IF NOT EXISTS stockpnlview AS SELECT Stock.id, Stock.name, PnL.realizedpnl, Max(PnL.timestamp) AS timestamp FROM Stock JOIN PnL ON Stock.id = PnL.stkid GROUP BY PnL.stkid;" )
+            stmt = text( 
+                "CREATE VIEW IF NOT EXISTS LatestStockPnLView AS "
+                "SELECT Stock.id, Stock.name, Stock.conid, PnL.realizedpnl, Max(PnL.timestamp) AS timestamp "
+                "FROM Stock JOIN PnL ON Stock.id = PnL.stkid GROUP BY PnL.stkid;" )
+            await asession.execute(stmt)
+            await asession.commit()
+        finally:
+            self.lock.release()
+
+    async def create_config_view(self):
+        await self.lock.acquire()
+        try:
+            async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
+            asession = async_session()
+            stmt = text( 
+                "CREATE VIEW IF NOT EXISTS LatestConfigView AS "
+                "SELECT Stock.id, Stock.conid, Stock.name, "
+                "Config.initvalue, Config.leverage, "
+                "Config.numofsinglespread, Config.spreadsteppriceratio, Config.spreadsteppriceminimal, "
+                "Max(Config.timestamp) AS timestamp "
+                "FROM Stock JOIN Config ON Stock.id = Config.stkid GROUP BY Config.stkid;" )
             await asession.execute(stmt)
             await asession.commit()
         finally:
@@ -84,7 +106,7 @@ class BotDB:
 
     async def config(
             self, stock, initvalue, leverage, 
-            singlesidespreadquantity,
+            numofsinglespread,
             spreadsteppriceratio,
             spreadsteppriceminimal,
             timestamp):
@@ -96,7 +118,7 @@ class BotDB:
                 conid = stock.conid,
                 initvalue = initvalue,
                 leverage = leverage,
-                singlesidespreadquantity = singlesidespreadquantity,
+                numofsinglespread = numofsinglespread,
                 spreadsteppriceratio = spreadsteppriceratio,
                 spreadsteppriceminimal = spreadsteppriceminimal,
                 timestamp = timestamp
@@ -131,6 +153,8 @@ class BotDB:
             await asession.commit()
         finally:
             await asession.close()
+        if len(result)==0:
+            return []
         return next(zip(*result))
     
     async def allStocksAndPnL(self):
@@ -138,11 +162,10 @@ class BotDB:
         asession = async_session()
         result = 0
         try:
-            q = text(
-                "SELECT * FROM stockpnlview;"
-            )
+            #q = text("SELECT * FROM LatestStockPnLView;")
+            q = Select("LatestStockPnLView")
             result = (await asession.execute(q)).all()
-            print(result)
+            #print(f"allStocksAndPnL:{result}")
         finally:
             await asession.close()
       
@@ -157,12 +180,12 @@ class BotDB:
             await asession.commit()
         finally:
             await asession.close()
+        if len(result)==0:
+            return []
         return next(zip(*result))
 
     async def findConfigByStock(self, stockname):
         pass
-
-
 
 
 botDB = BotDB()
@@ -180,12 +203,11 @@ async def botDBMain():
 
     result = await botDB.allStocks()
     r = [ (i+1, x.name, x.conid, x.exchange) for i, x in enumerate(result) ]
-    pp(r)
+
+    #pp(r)
     await botDB.allStocksAndPnL()
     print("Input Stock Name:")
     user_input = await aioconsole.ainput()
-
-
 
 
 async def asyncBotDB():
