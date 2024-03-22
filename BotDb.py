@@ -31,6 +31,7 @@ class Config(BotDBBase):
     numofsinglespread = Column(Integer)
     spreadsteppriceratio = Column(Numeric)
     spreadsteppriceminimal = Column(Numeric)
+    status = Column(Integer) #0 stop, 1 active, 2 liquiding.
     timestamp = Column(Integer)
 
 class PnL(BotDBBase):
@@ -69,6 +70,17 @@ class BotDB:
         finally:
             self.lock.release()
 
+    async def viewPnL(self):
+        async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
+        asession = async_session()
+        result = {}
+        try:
+            q = text("SELECT * FROM LatestStockPnLView")
+            result = (await asession.execute(q)).mappings().all()
+        finally:
+            await asession.close()
+        return result
+
     async def create_config_view(self):
         await self.lock.acquire()
         try:
@@ -85,6 +97,17 @@ class BotDB:
             await asession.commit()
         finally:
             self.lock.release()
+
+    async def viewConfig(self):
+        async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
+        asession = async_session()
+        result = {}
+        try:
+            q = text("SELECT * FROM LatestConfigView")
+            result = (await asession.execute(q)).mappings().all()
+        finally:
+            await asession.close()
+        return result
 
     async def insertStock(
             self, stockname, conid, exchange, timestamp):
@@ -146,7 +169,7 @@ class BotDB:
     async def allStocks(self):
         async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
         asession = async_session()
-        result = 0
+        result = []
         try:
             q = select(Stock).where(True)
             result = (await asession.execute(q)).all()
@@ -173,7 +196,7 @@ class BotDB:
     async def findStockByName(self, stockname):
         async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
         asession = async_session()
-        result = 0
+        result = []
         try:
             q = select(Stock).where(Stock.name == stockname)
             result = (await asession.execute(q)).all()
@@ -201,13 +224,18 @@ from pprint import pprint as pp
 async def botDBMain():
     await botDB.async_init()
 
+    conf = await botDB.viewConfig()
+    print(f"config:{conf}")
+    spnl = await botDB.viewPnL()
+    print(f"stocks pnl:{spnl}")
+    user_input = await aioconsole.ainput()
+    '''
     result = await botDB.allStocks()
     r = [ (i+1, x.name, x.conid, x.exchange) for i, x in enumerate(result) ]
-
     #pp(r)
     await botDB.allStocksAndPnL()
     print("Input Stock Name:")
-    user_input = await aioconsole.ainput()
+    user_input = await aioconsole.ainput()'''
 
 
 async def asyncBotDB():
