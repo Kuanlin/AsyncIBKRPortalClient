@@ -1,8 +1,8 @@
 import asyncio, asyncpg, aioconsole
 
-DEFAULT_USER = 'IBKRUSR'
-DEFAULT_PWD = 'IBKRPWD'
-DEFAULT_DB = 'ibkrdb2'
+DEFAULT_USER = 'DEFAULT_USER'
+DEFAULT_PWD = 'DEFAULT_PWD'
+DEFAULT_DB = 'DEFAULT_DB'
 
 '''
 class StockDB:
@@ -27,14 +27,14 @@ class BotDB:
         )
         result = await self.conn.fetch(stmt, DEFAULT_DB)
         if (len(result)==0):
-            await self.conn.execute("CREATE DATABASE $1;", DEFAULT_DB)
+            await self.conn.execute(f"CREATE DATABASE {DEFAULT_DB}")
         self.conn = await asyncpg.connect(
             user=DEFAULT_USER, password=DEFAULT_PWD,
             database=DEFAULT_DB, host='127.0.0.1')
         stmt = (
             r"BEGIN;"
             r"DO $$"
-                r"BEGIN"
+                r"BEGIN "
                 r"IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status') THEN "
                     r"CREATE TYPE status AS ENUM ('stop', 'active', 'liquidating', 'deprecated');"
                 r"END IF;"
@@ -72,7 +72,7 @@ class BotDB:
         #print(stmt)
         await self.conn.execute(stmt)
         stmt = (
-            r"CREATE OR REPLACE VIEW lateststockpnlview AS"
+            r"CREATE OR REPLACE VIEW lateststockpnlview AS "
             r"SELECT DISTINCT ON (s.id, s.conid) "
                 r"s.id, s.name, s.conid, p.realizedpnl, p.timestamps AS timestamp "
             r"FROM stocks s "
@@ -91,6 +91,7 @@ class BotDB:
             r"ORDER BY s.id, s.conid, c.timestamps DESC;" )
         #print(stmt)
         await self.conn.execute(stmt)
+        await self.conn.execute("COMMIT;")
 
 
     async def getStock(self, stk = True) -> list: 
@@ -118,7 +119,7 @@ class BotDB:
         elif type(stk)==int:
             fetch = self.conn.fetch(
                 r"SELECT * FROM latestconfigview WHERE conid = $1;", stk )
-        elif type(stk)==bool:
+        elif stk == None or (type(stk)==bool and stk==True):
             fetch = self.conn.fetch(
                 r"SELECT * FROM latestconfigview WHERE True;")
         else:
@@ -172,7 +173,7 @@ class BotDB:
             fetch = self.conn.fetch(r"SELECT * FROM lateststockpnlview WHERE name = $1;", stk)
         elif type(stk)==int:
             fetch = self.conn.fetch(r"SELECT * FROM lateststockpnlview WHERE conid = $1;", stk)
-        elif type(stk)==None or (type(stk)==bool and stk==True):
+        elif stk==None or (type(stk)==bool and stk==True):
             fetch = self.conn.fetch(r"SELECT * FROM lateststockpnlview WHERE True;")
         else:
             raise AssertionError
@@ -182,14 +183,23 @@ class BotDB:
 botDB = BotDB()
 
 
-
+from pprint import pprint as pp
 async def botDBMain():
     try:
         await botDB.async_init()
         pnls = await botDB.getPnL()
-        print(pnls)
+        configs = await botDB.getConfig()
+        pp(dir(pnls))
+        pp(pnls)
+        print()
+        pp(dir(configs))
+        pp(configs)
+
     except Exception as e:
-        print(e)
+        import traceback
+        tb = traceback.format_exc()
+        print(tb)
+
     user_input = await aioconsole.ainput()
 
 async def asyncBotDB():
@@ -204,70 +214,3 @@ def run():
 #
 if __name__ == '__main__':
     run()
-
-#
-#values = await self.conn.fetch(
-#    'SELECT * FROM mytable WHERE id = $1',
-#    10,
-#)
-#await self.conn.close()
-#
-#botDB = BotDB()
-#async def test():
-#    while(True):
-#        await asyncio.sleep(0.5)
-#        #print(".",end="", flush=True)
-#
-#
-#import aioconsole
-#from pprint import pprint as pp
-#
-#async def botDBMain():
-#    await botDB.async_init()
-#
-#    #stks = await botDB.allStocks()
-#    #print(f"stks:{stks}")
-#    #conf = await botDB.viewConfig()
-#    #print(f"config:{conf}")
-#    spnl = await botDB.viewPnL()
-#    print(f"stocks pnl:")
-#    pp(spnl)
-#    
-#    print(r"1. Stocks:")
-#    print(r"2. Configs:")
-#    print(r"3. PnLs:")
-#    print(r"4. Exit")
-#    user_input = await aioconsole.ainput()
-#    while(True):
-#        match(user_input):
-#            case '1':
-#                print("Stocks")
-#            case '2':
-#                print("Configs")
-#            case '3':
-#                print("PnLs")
-#            case '4':
-#                exit()
-#        user_input = await aioconsole.ainput()
-#    '''
-#    result = await botDB.allStocks()
-#    r = [ (i+1, x.name, x.conid, x.exchange) for i, x in enumerate(result) ]
-#    #pp(r)
-#    await botDB.allStocksAndPnL()
-#    print("Input Stock Name:")
-#    user_input = await aioconsole.ainput()'''
-#
-#
-#async def asyncBotDB():
-#    await asyncio.gather( botDBMain(), test() )
-#
-#def run():
-#    loop = asyncio.new_event_loop()
-#    asyncio.set_event_loop(loop)
-#    loop.create_task(asyncBotDB())
-#    loop.run_forever()
-#    loop.close()
-#
-#if __name__ == '__main__':
-#    run()
-#
