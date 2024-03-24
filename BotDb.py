@@ -1,4 +1,8 @@
-import asyncio, asyncpg
+import asyncio, asyncpg, aioconsole
+
+DEFAULT_USER = 'IBKRUSR'
+DEFAULT_PWD = 'IBKRPWD'
+DEFAULT_DB = 'ibkrdb'
 
 '''
 class StockDB:
@@ -16,7 +20,7 @@ class BotDB:
 
     async def async_init(self):
         self.conn = await asyncpg.connect(
-            user='ibkrusr', password='ibkrpwd',
+            user=DEFAULT_USER, password=DEFAULT_PWD,
             database='', host='127.0.0.1')
         stmt = (
             r"DO $$ "
@@ -27,8 +31,8 @@ class BotDB:
             r"END $$;" )
         self.conn.execute(stmt)
         self.conn = await asyncpg.connect(
-            user='ibkrusr', password='ibkrpwd',
-            database='ibkrdb', host='127.0.0.1')
+            user=DEFAULT_USER, password=DEFAULT_PWD,
+            database=DEFAULT_DB, host='127.0.0.1')
         stmt = (
             r"BEGIN;"
             r"DO $$"
@@ -182,9 +186,13 @@ botDB = BotDB()
 
 
 async def botDBMain():
-    await botDB.async_init()
-    pnls = await botDB.getPnL()
-    print(pnls)
+    try:
+        await botDB.async_init()
+        pnls = await botDB.getPnL()
+        print(pnls)
+    except Exception as e:
+        print(e)
+    user_input = await aioconsole.ainput()
 
 async def asyncBotDB():
     await asyncio.gather( botDBMain() )#, test() )
