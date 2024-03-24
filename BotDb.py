@@ -2,7 +2,7 @@ import asyncio, asyncpg, aioconsole
 
 DEFAULT_USER = 'IBKRUSR'
 DEFAULT_PWD = 'IBKRPWD'
-DEFAULT_DB = 'ibkrdb'
+DEFAULT_DB = 'ibkrdb2'
 
 '''
 class StockDB:
@@ -24,8 +24,8 @@ class BotDB:
             database='', host='127.0.0.1')
         stmt = (
             r"DO $$ "
-            r"BEGIN"
-                r"IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'IBKRDB') THEN"
+            r"BEGIN "
+                f"IF NOT EXISTS (SELECT FROM pg_database WHERE datname = {DEFAULT_DB}) THEN "
                     r"CREATE DATABASE IBKRDB;"
                 r"END IF;"
             r"END $$;" )
@@ -37,7 +37,7 @@ class BotDB:
             r"BEGIN;"
             r"DO $$"
                 r"BEGIN"
-                r"IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status') THEN"
+                r"IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status') THEN "
                     r"CREATE TYPE status AS ENUM ('stop', 'active', 'liquidating', 'deprecated');"
                 r"END IF;"
             r"END $$;" )
