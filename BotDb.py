@@ -29,7 +29,7 @@ class BotDB:
                     r"CREATE DATABASE IBKRDB;"
                 r"END IF;"
             r"END $$;" )
-        self.conn.execute(stmt)
+        await self.conn.execute(stmt)
         self.conn = await asyncpg.connect(
             user=DEFAULT_USER, password=DEFAULT_PWD,
             database=DEFAULT_DB, host='127.0.0.1')
@@ -42,7 +42,7 @@ class BotDB:
                 r"END IF;"
             r"END $$;" )
         #print(stmt)
-        self.conn.execute(stmt)
+        await self.conn.execute(stmt)
         stmt = (
             r"CREATE TABLE IF NOT EXISTS stocks ("
                 r"id SERIAL, conid INT, "
@@ -51,7 +51,7 @@ class BotDB:
                 r"PRIMARY KEY(id)"
             r");" )
         #print(stmt)
-        self.conn.execute(stmt)
+        await self.conn.execute(stmt)
         stmt = (
             r"CREATE TABLE IF NOT EXISTS configs ( "
                 r"id SERIAL, stkid INT NOT NULL, "
@@ -64,7 +64,7 @@ class BotDB:
                 r"PRIMARY KEY(id), FOREIGN KEY(stkid) REFERENCES stocks( id ) "
             r");" )
         #print(stmt)
-        self.conn.execute(stmt)
+        await self.conn.execute(stmt)
         stmt = (
             r"CREATE TABLE IF NOT EXISTS pnls ( "
                 r"id SERIAL, stkid INT NOT NULL, "
@@ -72,7 +72,7 @@ class BotDB:
                 r"PRIMARY KEY(id), FOREIGN KEY(stkid) REFERENCES stocks( id ) "
             r");" )
         #print(stmt)
-        self.conn.execute(stmt)
+        await self.conn.execute(stmt)
         stmt = (
             r"CREATE OR REPLACE VIEW lateststockpnlview AS"
             r"SELECT DISTINCT ON (s.id, s.conid) "
@@ -81,7 +81,7 @@ class BotDB:
             r"JOIN pnls P ON s.id = p.stkid "
             r"ORDER BY s.id, s.conid, p.timestamps DESC;" )
         #print(stmt)
-        self.conn.execute(stmt)
+        await self.conn.execute(stmt)
         stmt = (
             r"CREATE OR REPLACE VIEW latestconfigview AS "
             r"SELECT DISTINCT ON (s.id, s.conid) "
@@ -92,7 +92,7 @@ class BotDB:
             r"JOIN configs c ON s.id = c.stkid "
             r"ORDER BY s.id, s.conid, c.timestamps DESC;" )
         #print(stmt)
-        self.conn.execute(stmt)
+        await self.conn.execute(stmt)
 
 
     async def getStock(self, stk = True) -> list: 
