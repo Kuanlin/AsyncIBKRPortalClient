@@ -14,7 +14,7 @@ class BotDB:
     def __init__(self):
         self.conn = None
 
-    async def dbinit(self):
+    async def async_init(self):
         self.conn = await asyncpg.connect(
             user='ibkrusr', password='ibkrpwd',
             database='', host='127.0.0.1')
