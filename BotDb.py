@@ -23,19 +23,11 @@ class BotDB:
             user=DEFAULT_USER, password=DEFAULT_PWD,
             database='', host='127.0.0.1')
         stmt = (
-            r"SELECT datname FROM pg_catalog.pg_database WHERE datname = '$1';"
+            r"SELECT datname FROM pg_catalog.pg_database WHERE datname = $1;"
         )
         result = await self.conn.fetch(stmt, DEFAULT_DB)
-        print(result)
-        exit()
-        #stmt = (
-        #    r"DO $$ "
-        #    r"BEGIN "
-        #        f"IF NOT EXISTS (SELECT FROM pg_database WHERE datname = '{DEFAULT_DB}') THEN "
-        #            f"CREATE DATABASE '{DEFAULT_DB}';"
-        #        r"END IF;"
-        #    r"END $$;" )
-        #await self.conn.execute(stmt)
+        if (len(result)==0):
+            await self.conn.execute("CREATE DATABASE $1;", DEFAULT_DB)
         self.conn = await asyncpg.connect(
             user=DEFAULT_USER, password=DEFAULT_PWD,
             database=DEFAULT_DB, host='127.0.0.1')
