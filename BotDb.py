@@ -111,6 +111,15 @@ class BotDB:
         await self.conn.execute(stmt)
 
         stmt = (
+            r"CREATE OR REPLACE VIEW orderhistoryview AS "
+            r"SELECT DISTINCT ON (s.id, s.conid) "
+                r"s.id, s.name, s.conid, h.cfgid, h.side, h.price, h.quantity, h.type, h.timestamps "
+            r"FROM stocks s "
+            r"JOIN orderhistory h ON s.id = h.stkid "
+            r"ORDER BY s.id, s.conid, h.timestamps DESC;" )
+        await self.conn.execute(stmt)
+
+        stmt = (
             r"CREATE OR REPLACE VIEW lateststockpnlview AS "
             r"SELECT DISTINCT ON (s.id, s.conid) "
                 r"s.id, s.name, s.conid, p.realizedpnl, p.timestamps "
@@ -226,6 +235,17 @@ class BotDB:
         if usedict:
             values = [dict(x.items()) for x in values]
         return values
+
+    async def getOrderHistory(self, stk = None, todayonly=False, usedict = True):
+        fetch = None
+        if type(stk)==str:
+            fetch = self.conn.fetch(r"SELECT * FROM orderhistory WHERE name = $1;", stk)
+        elif type(stk)==int:
+            fetch = self.conn.fetch(r"SELECT * FROM orderhistory WHERE conid = $1;", stk)
+        elif stk==None or (type(stk)==bool and stk==True):
+            fetch = self.conn.fetch(r"SELECT * FROM orderhistory WHERE True;")
+        else:
+            raise AssertionError 
     
 botDB = BotDB()
 
