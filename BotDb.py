@@ -74,7 +74,7 @@ class BotDB:
         stmt = (
             r"CREATE OR REPLACE VIEW lateststockpnlview AS "
             r"SELECT DISTINCT ON (s.id, s.conid) "
-                r"s.id, s.name, s.conid, p.realizedpnl, p.timestamps AS timestamp "
+                r"s.id, s.name, s.conid, p.realizedpnl, p.timestamps "
             r"FROM stocks s "
             r"JOIN pnls P ON s.id = p.stkid "
             r"ORDER BY s.id, s.conid, p.timestamps DESC;" )
@@ -85,7 +85,7 @@ class BotDB:
             r"SELECT DISTINCT ON (s.id, s.conid) "
                 r"s.id, s.conid, s.name, c.initvalue, c.leverage, c.statuscode, "
                 r"c.numofsinglespread, c.spreadsteppriceratio, c.spreadsteppriceminimal, "
-                r"c.timestamps AS timestamp "
+                r"c.timestamps "
             r"FROM stocks s "
             r"JOIN configs c ON s.id = c.stkid "
             r"ORDER BY s.id, s.conid, c.timestamps DESC;" )
