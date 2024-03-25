@@ -246,6 +246,10 @@ class BotDB:
             fetch = self.conn.fetch(r"SELECT * FROM orderhistory WHERE True;")
         else:
             raise AssertionError 
+        values = await fetch
+        if usedict:
+            values = [dict(x.items()) for x in values]
+        return values
     
 botDB = BotDB()
 
@@ -254,6 +258,7 @@ from pprint import pprint as pp
 async def botDBMain():
     try:
         await botDB.async_init()
+        '''
         pnls = await botDB.getPnL()
         #pnls_dict = [dict(x.items()) for x in pnls]
         configs = await botDB.getConfig()
@@ -265,13 +270,40 @@ async def botDBMain():
         print("configs:")
         pp(configs)
         print("stks:")
-        pp(stks)
+        pp(stks)'''
+        while(user_input != "4"):
+            print("1 Show PnLs\n2 Show Configs\n3 Show Stocks")
+            user_input = await aioconsole.ainput()
+            match(user_input):
+                case "1":
+                    pp(await botDB.getPnL())
+                case "2":
+                    pp(await botDB.getConfig())
+                case "3":
+                    pp(await botDB.getStock())
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
         print(tb)
 
-    user_input = await aioconsole.ainput()
+    user_input = await aioconsole.ainput()\
+                
+async def st01():
+    while(user_input != "4"):
+        print("1 Show PnLs\n2 Show Configs\n3 Show Stocks")
+        user_input = await aioconsole.ainput()
+        match(user_input):
+            case "1":
+                pp(await botDB.getPnL())
+            case "2":
+                pp(await botDB.getConfig())
+            case "3":
+                pp(await botDB.getStock())
+            case "4":
+                return 
+
+
+
 
 
 async def asyncBotDB():
