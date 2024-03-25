@@ -103,7 +103,7 @@ class BotDB:
                 r"price numeric(20,5), "
                 r"quantity numeric(20,5), "
                 r"type ordertype, "
-                r"timestamps timestamp "
+                r"timestamps timestamp, "
                 r"PRIMARY KEY(id), "
                 r"FOREIGN KEY(stkid) REFERENCES stocks(id), "
                 r"FOREIGN KEY(cfgid) REFERENCES configs(id) "
