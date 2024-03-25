@@ -94,7 +94,7 @@ class BotDB:
         await self.conn.execute("COMMIT;")
 
 
-    async def getStock(self, stk = True) -> list: 
+    async def getStock(self, stk = True, usedict = True) -> list: 
         fetch = None
         if type(stk)==str:
             fetch = self.conn.fetch(
@@ -108,10 +108,12 @@ class BotDB:
         else:
             raise AssertionError
         values = await fetch
+        if usedict:
+            values = [dict(x.items()) for x in values]
         return values
 
 
-    async def getConfig(self, stk = None) -> list:
+    async def getConfig(self, stk = None, usedict = True) -> list:
         fetch = None
         if type(stk)==str:
             fetch = self.conn.fetch(
@@ -125,6 +127,8 @@ class BotDB:
         else:
             raise AssertionError
         values = await fetch
+        if usedict:
+            values = [dict(x.items()) for x in values]
         return values
     
 
@@ -167,7 +171,7 @@ class BotDB:
         )
         await self.conn.execute(stmt, id)
 
-    async def getPnL(self, stk = None):
+    async def getPnL(self, stk = None, usedict = True):
         fetch = None
         if type(stk)==str:
             fetch = self.conn.fetch(r"SELECT * FROM lateststockpnlview WHERE name = $1;", stk)
@@ -178,6 +182,8 @@ class BotDB:
         else:
             raise AssertionError
         values = await fetch
+        if usedict:
+            values = [dict(x.items()) for x in values]
         return values
     
 botDB = BotDB()
@@ -188,13 +194,17 @@ async def botDBMain():
     try:
         await botDB.async_init()
         pnls = await botDB.getPnL()
+        #pnls_dict = [dict(x.items()) for x in pnls]
         configs = await botDB.getConfig()
-        pp(dir(pnls))
+        #configs_dict = [dict(x.items()) for x in configs]
+        stks = await botDB.getStock()
+        #stks_dict = [dict(x.items()) for x in stks]
+        print("pnls:")
         pp(pnls)
-        print()
-        pp(dir(configs))
+        print("configs:")
         pp(configs)
-
+        print("stks:")
+        pp(stks)
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
@@ -202,9 +212,11 @@ async def botDBMain():
 
     user_input = await aioconsole.ainput()
 
+
 async def asyncBotDB():
     await asyncio.gather( botDBMain() )#, test() )
 #
+
 def run():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
