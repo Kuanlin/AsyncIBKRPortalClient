@@ -41,6 +41,7 @@ class BotDB:
             r"END $$;" )
         #print(stmt)
         await self.conn.execute(stmt)
+
         stmt = (
             r"CREATE TABLE IF NOT EXISTS stocks ("
                 r"id SERIAL, conid INT, "
@@ -50,6 +51,7 @@ class BotDB:
             r");" )
         #print(stmt)
         await self.conn.execute(stmt)
+
         stmt = (
             r"CREATE TABLE IF NOT EXISTS configs ( "
                 r"id SERIAL, stkid INT NOT NULL, "
@@ -63,6 +65,7 @@ class BotDB:
             r");" )
         #print(stmt)
         await self.conn.execute(stmt)
+
         stmt = (
             r"CREATE TABLE IF NOT EXISTS pnls ( "
                 r"id SERIAL, stkid INT NOT NULL, "
@@ -71,6 +74,42 @@ class BotDB:
             r");" )
         #print(stmt)
         await self.conn.execute(stmt)
+
+        stmt = (
+            r"BEGIN;"
+            r"DO $$"
+                r"BEGIN "
+                r"IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'sidetype') THEN "
+                    r"CREATE TYPE sidetype AS ENUM ('BUY', 'SELL');"
+                r"END IF;"
+            r"END $$;" )
+        await self.conn.execute(stmt)
+
+        stmt = (
+            r"BEGIN;"
+            r"DO $$"
+                r"BEGIN "
+                r"IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'ordertype') THEN "
+                    r"CREATE TYPE ordertype AS ENUM ('LMT', 'MKT');"
+                r"END IF;"
+            r"END $$;" ) 
+        await self.conn.execute(stmt)
+
+        stmt = (
+            r"CREATE TABLE IF NOT EXISTS OrderHistory ( "
+                r"id SERIAL, stkid INT NOT NULL, "
+                r"cfgid INT NOT NULL, "
+                r"side sidetype, "
+                r"price numeric(20,5), "
+                r"quantity numeric(20,5), "
+                r"type ordertype, "
+                r"timestamps timestamp "
+                r"PRIMARY KEY(id), "
+                r"FOREIGN KEY(stkid) REFERENCES stocks(id), "
+                r"FOREIGN KEY(cfgid) REFERENCES configs(id) "
+            r");" )
+        await self.conn.execute(stmt)
+
         stmt = (
             r"CREATE OR REPLACE VIEW lateststockpnlview AS "
             r"SELECT DISTINCT ON (s.id, s.conid) "
@@ -80,6 +119,7 @@ class BotDB:
             r"ORDER BY s.id, s.conid, p.timestamps DESC;" )
         #print(stmt)
         await self.conn.execute(stmt)
+
         stmt = (
             r"CREATE OR REPLACE VIEW latestconfigview AS "
             r"SELECT DISTINCT ON (s.id, s.conid) "
@@ -92,6 +132,7 @@ class BotDB:
         #print(stmt)
         await self.conn.execute(stmt)
         await self.conn.execute("COMMIT;")
+
 
 
     async def getStock(self, stk = True, usedict = True) -> list: 
