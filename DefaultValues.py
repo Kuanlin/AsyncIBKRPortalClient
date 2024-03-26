@@ -9,6 +9,7 @@ if len(saved)>0:
     saved.sort(reverse=True)
     lastsaved = saved[0]
 
+db_param = _configjs["db_param"]
 
 
 
