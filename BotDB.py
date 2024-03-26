@@ -255,6 +255,7 @@ botDB = BotDB()
 
 
 from pprint import pprint as pp
+import os
 async def botDBMain():
     try:
         await botDB.async_init()
@@ -271,29 +272,60 @@ async def botDBMain():
         pp(configs)
         print("stks:")
         pp(stks)'''
+
+        user_input = ""
         while(user_input != "4"):
-            print("1 Show PnLs\n2 Show Configs\n3 Show Stocks")
-            user_input = await aioconsole.ainput()
-            st01(user_input)
+            
+            user_input = await st01(user_input)
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
         print(tb)
 
-    user_input = await aioconsole.ainput()\
+    #user_input = await aioconsole.ainput()
                 
 async def st01(user_input):
-    while(user_input != "4"):
-        print("1 Show PnLs\n2 Show Configs\n3 Show Stocks")
+    os.system('clear')
+    print("[Main]")
+    print("0 Settings\n 1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>")
+    user_input = (await aioconsole.ainput()).rstrip()
+    match(user_input):
+        case "0":
+            await st11()
+        case "1":
+            pp(await botDB.getPnL())
+            user_input = (await aioconsole.ainput()).rstrip()
+        case "2":
+            pp(await botDB.getConfig())
+            user_input = (await aioconsole.ainput()).rstrip()
+        case "3":
+            pp(await botDB.getStock())
+            user_input = (await aioconsole.ainput()).rstrip()
+    return user_input
+        
+
+async def st11(user_input):
+    os.system('clear')
+
+    while(True):
+        print("[Config]")
+        print("0 Back\n 1 New Config\n2 Update Config\n3 Deprecate Config\n4 Add Stock Data\n5 Deprecate Stock Data\n =>")
+        user_input = (await aioconsole.ainput()).rstrip()
         match(user_input):
+            case "0":
+                return 0
             case "1":
-                pp(await botDB.getPnL())
+                print("New Config")
             case "2":
-                pp(await botDB.getConfig())
+                print("Update Config")
             case "3":
-                pp(await botDB.getStock())
+                print("Deprecate Config")
             case "4":
-                return
+                print("Add Stock Data")
+            case "5":
+                print("Deprecate Stock Data")
+        user_input = (await aioconsole.ainput()).rstrip()
+
 
 
 
