@@ -1,8 +1,9 @@
 import asyncio, asyncpg, aioconsole
+from DefaultValues import db_param
 
-DEFAULT_USER = 'DEFAULT_USER'
-DEFAULT_PWD = 'DEFAULT_PWD'
-DEFAULT_DB = 'DEFAULT_DB'
+DEFAULT_USER = db_param["user"]
+DEFAULT_PWD = db_param["pwd"]
+DEFAULT_DB = db_param["db"]
 
 '''
 class StockDB:
@@ -276,7 +277,7 @@ async def botDBMain():
         user_input = ""
         while(user_input != "4"):
             
-            user_input = await st01(user_input)
+            user_input = await st01()
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
@@ -284,10 +285,10 @@ async def botDBMain():
 
     #user_input = await aioconsole.ainput()
                 
-async def st01(user_input):
+async def st01():
     os.system('clear')
     print("[Main]")
-    print("0 Settings\n 1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>")
+    print("0 Settings\n1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>", end="", flush=True)
     user_input = (await aioconsole.ainput()).rstrip()
     match(user_input):
         case "0":
@@ -304,30 +305,38 @@ async def st01(user_input):
     return user_input
         
 
-async def st11(user_input):
-    os.system('clear')
-
+async def st11():
     while(True):
+        os.system('clear')
         print("[Config]")
-        print("0 Back\n 1 New Config\n2 Update Config\n3 Deprecate Config\n4 Add Stock Data\n5 Deprecate Stock Data\n =>")
+        print("0 Back\n1 Add Stock Data\n2 Deprecate Stock Data\n3 New Config\n4 Update Config\n5 Deprecate Config\n =>", end="", flush=True)
         user_input = (await aioconsole.ainput()).rstrip()
         match(user_input):
             case "0":
                 return 0
             case "1":
-                print("New Config")
-            case "2":
-                print("Update Config")
-            case "3":
-                print("Deprecate Config")
-            case "4":
+                os.system('clear')
                 print("Add Stock Data")
-            case "5":
+                print("input name =>", end="", flush=True)
+                name = (await aioconsole.ainput()).rstrip()
+                print("input conid =>", end="", flush=True)
+                conid = (await aioconsole.ainput()).rstrip()
+                print("input exchange =>", end="", flush=True)
+                exchange = (await aioconsole.ainput()).rstrip()            
+                os.system('clear')
+                print(f"stock name = {name}\nconid={conid}\nexchange={exchange}", flush=True)
+                print("0 submit / 1 cancel =>", end="", flush=True)
+                exchange = (await aioconsole.ainput()).rstrip() 
+            case "2":
                 print("Deprecate Stock Data")
+            case "3":
+                print("New Config")
+            case "4":
+                print("Update Config")
+            case "5":
+                print("Deprecate Config")
+
         user_input = (await aioconsole.ainput()).rstrip()
-
-
-
 
 
 
