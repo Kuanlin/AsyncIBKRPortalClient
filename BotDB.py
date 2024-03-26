@@ -288,7 +288,7 @@ async def botDBMain():
 async def st01():
     os.system('clear')
     print("[Main]")
-    print("0 Settings\n1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>", end="")
+    print("0 Settings\n1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>", end="", flush=True)
     user_input = (await aioconsole.ainput()).rstrip()
     match(user_input):
         case "0":
@@ -309,7 +309,7 @@ async def st11():
     while(True):
         os.system('clear')
         print("[Config]")
-        print("0 Back\n1 Add Stock Data\n2 Deprecate Stock Data\n3 New Config\n4 Update Config\n5 Deprecate Config\n =>", end="")
+        print("0 Back\n1 Add Stock Data\n2 Deprecate Stock Data\n3 New Config\n4 Update Config\n5 Deprecate Config\n =>", end="", flush=True)
         user_input = (await aioconsole.ainput()).rstrip()
         match(user_input):
             case "0":
