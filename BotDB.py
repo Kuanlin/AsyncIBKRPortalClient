@@ -277,7 +277,7 @@ async def botDBMain():
         user_input = ""
         while(user_input != "4"):
             
-            user_input = await st01(user_input)
+            user_input = await st01()
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
@@ -285,7 +285,7 @@ async def botDBMain():
 
     #user_input = await aioconsole.ainput()
                 
-async def st01(user_input):
+async def st01():
     os.system('clear')
     print("[Main]")
     print("0 Settings\n 1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>", end="")
@@ -305,9 +305,7 @@ async def st01(user_input):
     return user_input
         
 
-async def st11(user_input):
-    
-
+async def st11():
     while(True):
         os.system('clear')
         print("[Config]")
