@@ -274,13 +274,7 @@ async def botDBMain():
         while(user_input != "4"):
             print("1 Show PnLs\n2 Show Configs\n3 Show Stocks")
             user_input = await aioconsole.ainput()
-            match(user_input):
-                case "1":
-                    pp(await botDB.getPnL())
-                case "2":
-                    pp(await botDB.getConfig())
-                case "3":
-                    pp(await botDB.getStock())
+            st01(user_input)
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
@@ -288,10 +282,9 @@ async def botDBMain():
 
     user_input = await aioconsole.ainput()\
                 
-async def st01():
+async def st01(user_input):
     while(user_input != "4"):
         print("1 Show PnLs\n2 Show Configs\n3 Show Stocks")
-        user_input = await aioconsole.ainput()
         match(user_input):
             case "1":
                 pp(await botDB.getPnL())
@@ -300,7 +293,7 @@ async def st01():
             case "3":
                 pp(await botDB.getStock())
             case "4":
-                return 
+                return
 
 
 
