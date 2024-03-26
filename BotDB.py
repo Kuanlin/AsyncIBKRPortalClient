@@ -288,7 +288,7 @@ async def botDBMain():
 async def st01():
     os.system('clear')
     print("[Main]")
-    print("0 Settings\n 1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>", end="")
+    print("0 Settings\n1 Show PnLs\n2 Show Configs\n3 Show Stocks\n =>", end="")
     user_input = (await aioconsole.ainput()).rstrip()
     match(user_input):
         case "0":
@@ -309,7 +309,7 @@ async def st11():
     while(True):
         os.system('clear')
         print("[Config]")
-        print("0 Back\n 1 New Config\n2 Update Config\n3 Deprecate Config\n4 Add Stock Data\n5 Deprecate Stock Data\n =>", end="")
+        print("0 Back\n1 Add Stock Data\n2 Deprecate Stock Data\n3 New Config\n4 Update Config\n5 Deprecate Config\n =>", end="")
         user_input = (await aioconsole.ainput()).rstrip()
         match(user_input):
             case "0":
@@ -317,15 +317,15 @@ async def st11():
             case "1":
                 os.system('clear')
                 print("Add Stock Data")
-                print("input name =>", end="")
+                print("input name =>", end="", flush=True)
                 name = (await aioconsole.ainput()).rstrip()
-                print("input conid =>", end="")
+                print("input conid =>", end="", flush=True)
                 conid = (await aioconsole.ainput()).rstrip()
-                print("input exchange =>", end="")
+                print("input exchange =>", end="", flush=True)
                 exchange = (await aioconsole.ainput()).rstrip()            
                 os.system('clear')
-                print(f"stock name = {name}\nconid={conid}\nexchange={exchange}")
-                print("0 submit / 1 cancel =>", end="")
+                print(f"stock name = {name}\nconid={conid}\nexchange={exchange}", flush=True)
+                print("0 submit / 1 cancel =>", end="", flush=True)
                 exchange = (await aioconsole.ainput()).rstrip() 
             case "2":
                 print("Deprecate Stock Data")
