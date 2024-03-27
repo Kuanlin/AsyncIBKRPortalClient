@@ -1,5 +1,6 @@
 import argparse
-import asyncio
+import asyncio, asyncpg
+from DefaultValues import db_param
 from pprint import pprint as pp
 
 async def bset_run():
@@ -19,10 +20,10 @@ async def bset_run():
             help = r"set the leverage", required = True)
         sc.add_argument('-iv', '--initvalue', 
             help = r"set initial value", required = True)
-        sc.add_argument('-sc', '--statuscode', choices=[r'stop', r'active', r'liquiding', r'deprecated'],
+        sc.add_argument('-sc', '--statuscode', choices=[r'new', r'active', r'deprecated', r'obsolete'],
             help = r"set status code", required = True)
         sc.add_argument('-ns', '--numofspread', 
-            help = r"set the number of single side orders to be spread", required = True)
+            help = r"set the number of single side orders to be spread", required = True)   
         sc.add_argument('-sr', '--spreadsteppriceratio', 
             help =r"set the price step ratio for orders <1: the further the smaller >1: the further the larger =0: use minimal value", required = True)
         sc.add_argument('-sm', '--spreadsteppriceminimal',
@@ -81,25 +82,31 @@ async def bset_run():
 
 
 async def set_config(args):
+    
+    #find all configs that match the same conid, and statuscode is new or active
+    #set config new -> obsolete
+    #set config active -> deprecated
+
     print('set_config')
+
     print(args)
 
 
 async def list_config(args):
     print('list_config')
-
+    print(args)
 
 async def add_stock(args):
     print('add_stock')
-
+    print(args)
 
 async def list_stock(args):
     print('list_stock')
-
+    print(args)
 
 async def list_pnl(args):
     print('list_pnl')
-
+    print(args)
 
 async def bset():
     try:

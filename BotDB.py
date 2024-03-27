@@ -62,6 +62,7 @@ class BotDB:
                 r"spreadsteppriceratio numeric(12, 5) NOT NULL, "
                 r"spreadsteppriceminimal numeric(12, 5) NOT NULL, "
                 r"statuscode status, timestamps timestamp, "
+                r"finalpnl numeric(20, 5), "
                 r"PRIMARY KEY(id), FOREIGN KEY(stkid) REFERENCES stocks( id ) "
             r");" )
         #print(stmt)
@@ -69,9 +70,10 @@ class BotDB:
 
         stmt = (
             r"CREATE TABLE IF NOT EXISTS pnls ( "
-                r"id SERIAL, stkid INT NOT NULL, "
+                r"id SERIAL, stkid INT NOT NULL, cfgid INT NOT NULL, "
                 r"realizedpnl numeric(20,5), timestamps timestamp, "
-                r"PRIMARY KEY(id), FOREIGN KEY(stkid) REFERENCES stocks( id ) "
+                r"PRIMARY KEY(id), FOREIGN KEY(stkid) REFERENCES stocks( id ), "
+                r"FOREIGN KEY(cfgid) REFERENCES configs(id), "
             r");" )
         #print(stmt)
         await self.conn.execute(stmt)
@@ -211,17 +213,6 @@ class BotDB:
             r"WHERE conid = $3;" )
         await self.conn.execute(stmt, stkname, exchange, conid)
 
-    async def updateConfig(self, stk = None):
-        raise NotImplemented
-        assert type(stk) == int
-        result = await self.getConfig(stk)
-        id = 0 ### result??? and other params
-        
-        stmt = (
-            r"INSERT INTO configs ( ) VALUES ( );"
-        )
-        await self.conn.execute(stmt, id)
-
     async def getPnL(self, stk = None, usedict = True):
         fetch = None
         if type(stk)==str:
@@ -251,7 +242,21 @@ class BotDB:
         if usedict:
             values = [dict(x.items()) for x in values]
         return values
+
+    async def checkConfigUpdates(self):
+        #if found config's statuscode is new
+        #find corresponding status code if there is one
+        new_cfgid = None
+        return new_cfgid
     
+    async def transportToNewConfigs(self, deprecated_cfgid, new_cfgid):
+        #if deprecated_cfgid is not None
+            #set deprecated config :final to corresponding pnl :realizedpnl
+            #set deprecated config :statuscode -> obsolete
+        #create new pnl and set :realizedpnl -> 0
+        #set new config :statuscode -> active
+        pass
+
 botDB = BotDB()
 
 
