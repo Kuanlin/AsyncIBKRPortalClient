@@ -1,6 +1,6 @@
 import argparse
 import asyncio
-
+from pprint import pprint as pp
 
 async def bset_run():
     try:
@@ -65,35 +65,40 @@ async def bset_run():
         lpnlgroup.add_argument('-a', '--all', action='store_true', help = r"list all PnL data")
         lpnlgroup.add_argument('-act', '--active', action='store_true', help = r"list all actived PnL data")
 
-        args = parser.parse_args()
-
-        await object.__getattribute__(object.__class__, f"{args}")()
-        print(args)
-        
-    except:
+        try:
+            args = parser.parse_args()
+            f = (globals()[args.act])
+            await f(args)
+        except SystemExit:
+            pass
+        return 0
+    
+    except Exception as err:
         import traceback
         tb = traceback.format_exc()
         print(tb)
 
 
 
-async def set_config():
+
+async def set_config(args):
     print('set_config')
+    print(args)
 
 
-async def list_config():
+async def list_config(args):
     print('list_config')
 
 
-async def add_stock():
+async def add_stock(args):
     print('add_stock')
 
 
-async def list_stock():
+async def list_stock(args):
     print('list_stock')
 
 
-async def list_pnl():
+async def list_pnl(args):
     print('list_pnl')
 
 
