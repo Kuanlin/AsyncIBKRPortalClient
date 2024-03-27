@@ -8,7 +8,7 @@ async def bset_run():
         subparsers = parser.add_subparsers()
 
         #new or update config..
-        sc = subparsers.add_parser("set-config", aliases = ['sc'])
+        sc = subparsers.add_parser("set-config", aliases = ['sc'], description = r"New or update config")
         sc.set_defaults(act="set_config")
         scgroup = sc.add_mutually_exclusive_group()
         scgroup.add_argument('-id', '--conid', 
@@ -29,7 +29,7 @@ async def bset_run():
             help =r"set the minimum price step for orders", required = True)
         
         #list config
-        lc = subparsers.add_parser("list-config", aliases = ['lc'])
+        lc = subparsers.add_parser("list-config", aliases = ['lc'], description = r"List configs")
         lc.set_defaults(act='list_config')
         lcgroup = lc.add_mutually_exclusive_group()
         lcgroup.add_argument('-id', '--conid', 
@@ -42,7 +42,7 @@ async def bset_run():
             help = r"filter by status code -- default = active", required = True, default = r'active')
 
         #add stock data
-        ast = subparsers.add_parser("add-stock", aliases = ['stk'])
+        ast = subparsers.add_parser("add-stock", aliases = ['stk'], description = r"Add Stock Data")
         ast.set_defaults(act="add_stock")
         ast.add_argument('-id', '--conid', 
             help = r"provide conid of the stock", type = int)
@@ -52,14 +52,14 @@ async def bset_run():
             help = r"provide stock's exchange" , type = str)
 
         #list stock data
-        lstk = subparsers.add_parser("list-stock", aliases = ['lst'])
+        lstk = subparsers.add_parser("list-stock", aliases = ['lst'], description = r"List Stock Data")
         lstk.set_defaults(act="list_stock")
         lstkgroup = lstk.add_mutually_exclusive_group()
         lstkgroup.add_argument('-a', '--all', action='store_true', help = r"list all stock data")
         lstkgroup.add_argument('-act', '--active', action='store_true', help = r"list all actived stock data")
 
         #list PnL
-        lpnl = subparsers.add_parser("list-pnl", aliases = ['pnl'])
+        lpnl = subparsers.add_parser("list-pnl", aliases = ['pnl'], description = r"List PnL Data")
         lpnl.set_defaults(act="list_pnl")
         lpnlgroup = lpnl.add_mutually_exclusive_group()
         lpnlgroup.add_argument('-a', '--all', action='store_true', help = r"list all PnL data")
@@ -69,6 +69,7 @@ async def bset_run():
             args = parser.parse_args()
             f = (globals()[args.act])
             await f(args)
+
         except SystemExit:
             pass
         return 0
@@ -77,8 +78,6 @@ async def bset_run():
         import traceback
         tb = traceback.format_exc()
         print(tb)
-
-
 
 
 async def set_config(args):
