@@ -255,8 +255,19 @@ class BotDB:
 botDB = BotDB()
 
 
-from pprint import pprint as pp
-import os
+if __name__ == '__main__':
+    from pprint import pprint as pp
+    import os
+    import argparse
+
+async def argparseinit():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers()
+    cfg_parser = subparser.add_parser("cfg", type=str.lower)
+
+
+
+
 async def botDBMain():
     try:
         await botDB.async_init()
@@ -309,14 +320,14 @@ async def st11():
     while(True):
         os.system('clear')
         print("[Config]")
-        print("0 Back\n1 Add Stock Data\n2 Deprecate Stock Data\n3 New Config\n4 Update Config\n5 Deprecate Config\n =>", end="", flush=True)
+        print("0 Back\n1 Add Stock\n2 Update Stock\n3 New Config\n4 Update Config\n5 Deprecate Config\n =>", end="", flush=True)
         user_input = (await aioconsole.ainput()).rstrip()
         match(user_input):
             case "0":
                 return 0
             case "1":
                 os.system('clear')
-                print("Add Stock Data")
+                print("Add Stock")
                 print("input name =>", end="", flush=True)
                 name = (await aioconsole.ainput()).rstrip()
                 print("input conid =>", end="", flush=True)
@@ -324,13 +335,44 @@ async def st11():
                 print("input exchange =>", end="", flush=True)
                 exchange = (await aioconsole.ainput()).rstrip()            
                 os.system('clear')
-                print(f"stock name = {name}\nconid={conid}\nexchange={exchange}", flush=True)
+                print(f"stock name = {name}\nconid = {conid}\nexchange = {exchange}", flush=True)
                 print("0 submit / 1 cancel =>", end="", flush=True)
                 exchange = (await aioconsole.ainput()).rstrip() 
             case "2":
-                print("Deprecate Stock Data")
+                os.system('clear')
+                print("Update Stock")
+                print("input name =>", end="", flush=True)
+                name = (await aioconsole.ainput()).rstrip()
+                print("input conid =>", end="", flush=True)
+                conid = (await aioconsole.ainput()).rstrip()
+                print("input exchange =>", end="", flush=True)
+                exchange = (await aioconsole.ainput()).rstrip()            
+                os.system('clear')
+                print(f"stock name = {name}\nconid = {conid}\nexchange = {exchange}", flush=True)
+                print("0 submit / 1 cancel =>", end="", flush=True)
+                exchange = (await aioconsole.ainput()).rstrip() 
             case "3":
+            #r"CREATE TABLE IF NOT EXISTS configs ( "
+            #    r"id SERIAL, stkid INT NOT NULL, "
+            #    r"initvalue numeric(20,5) NOT NULL, "
+            #    r"leverage numeric(10, 5) NOT NULL, "
+            #    r"numofsinglespread INT NOT NULL, "
+            #    r"spreadsteppriceratio numeric(12, 5) NOT NULL, "
+            #    r"spreadsteppriceminimal numeric(12, 5) NOT NULL, "
+            #    r"statuscode status, timestamps timestamp, "
+            #    r"PRIMARY KEY(id), FOREIGN KEY(stkid) REFERENCES stocks( id ) "
+            #r");" 
+                [
+                    {"conid":}
+                ]
+                os.system('clear')
                 print("New Config")
+                print("input conid")
+                conid = (await aioconsole.ainput()).rstrip() 
+                print("input")
+                conid = (await aioconsole.ainput()).rstrip() 
+
+
             case "4":
                 print("Update Config")
             case "5":

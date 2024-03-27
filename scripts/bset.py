@@ -1,12 +1,15 @@
 import argparse
 import asyncio
 
+
 async def bset_run():
     try:
         parser = argparse.ArgumentParser()
         subparsers = parser.add_subparsers()
+
+        #new or update config..
         sc = subparsers.add_parser("set-config", aliases = ['sc'])
-        sc.set_defaults(act="set-config")
+        sc.set_defaults(act="set_config")
         scgroup = sc.add_mutually_exclusive_group()
         scgroup.add_argument('-id', '--conid', 
             help = r"provide conid of the stock", type = int)
@@ -25,8 +28,9 @@ async def bset_run():
         sc.add_argument('-sm', '--spreadsteppriceminimal',
             help =r"set the minimum price step for orders", required = True)
         
+        #list config
         lc = subparsers.add_parser("list-config", aliases = ['lc'])
-        lc.set_defaults(act='list-config')
+        lc.set_defaults(act='list_config')
         lcgroup = lc.add_mutually_exclusive_group()
         lcgroup.add_argument('-id', '--conid', 
             help = r"provide conid of the stock", type = int)
@@ -37,8 +41,9 @@ async def bset_run():
         lc.add_argument('-sc', '--statuscode', choices=[r'stop', r'active', r'liquiding', r'deprecated'],
             help = r"filter by status code -- default = active", required = True, default = r'active')
 
-        ast = subparsers.add_parser("add-stock", aliases = ['ast'])
-        ast.set_defaults(act="add-stock")
+        #add stock data
+        ast = subparsers.add_parser("add-stock", aliases = ['stk'])
+        ast.set_defaults(act="add_stock")
         ast.add_argument('-id', '--conid', 
             help = r"provide conid of the stock", type = int)
         ast.add_argument('-n', '--name',
@@ -46,22 +51,50 @@ async def bset_run():
         ast.add_argument('-e', '--exchange',
             help = r"provide stock's exchange" , type = str)
 
+        #list stock data
         lstk = subparsers.add_parser("list-stock", aliases = ['lst'])
-        lstk.set_defaults(act="list-stock")
-        
+        lstk.set_defaults(act="list_stock")
+        lstkgroup = lstk.add_mutually_exclusive_group()
+        lstkgroup.add_argument('-a', '--all', action='store_true', help = r"list all stock data")
+        lstkgroup.add_argument('-act', '--active', action='store_true', help = r"list all actived stock data")
 
-        lpnl = subparsers.add_parser("list-pnl", aliases = ['lpnl'])
-        lpnl.set_defaults(act="list-pnl")
-
+        #list PnL
+        lpnl = subparsers.add_parser("list-pnl", aliases = ['pnl'])
+        lpnl.set_defaults(act="list_pnl")
+        lpnlgroup = lpnl.add_mutually_exclusive_group()
+        lpnlgroup.add_argument('-a', '--all', action='store_true', help = r"list all PnL data")
+        lpnlgroup.add_argument('-act', '--active', action='store_true', help = r"list all actived PnL data")
 
         args = parser.parse_args()
+
+        await object.__getattribute__(object.__class__, f"{args}")()
+        print(args)
         
-        print(args.act)
-        print(args.conid) 
-        print(args.name)
     except:
         import traceback
         tb = traceback.format_exc()
+        print(tb)
+
+
+
+async def set_config():
+    print('set_config')
+
+
+async def list_config():
+    print('list_config')
+
+
+async def add_stock():
+    print('add_stock')
+
+
+async def list_stock():
+    print('list_stock')
+
+
+async def list_pnl():
+    print('list_pnl')
 
 
 async def bset():
